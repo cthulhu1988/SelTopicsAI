@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #Isaac G Callison
-# CSCI 6350-001
+#CSCI 6350-001
 #Project #1
 #Due: 01/30/20
 
@@ -15,17 +15,19 @@ def main():
     # object with 2d array wherein matices and word lists reside.
     leviObj = matrixObj(openCSVFile(leviDistance)); confObj = matrixObj(openCSVFile(confDistance))
     wordObjList = (openTXTFile(wordList))
-    #leviObj.printMatrix()
 
     item1 = wordObjList[0]
     n,m = item1.getSrcLeng(0), item1.getTrgtLeng()
     # n is leng of source X string and m in leng of Target Y string
-    print("Source {} and target {}".format(item1.sourceList[0], item1.targetWord))
-    print("n {} and m {}".format(n,m))
     # source is the siderow X , target is the top Y_row
+    # GET BACK intialized matrix.
     scrMatInit = scoreMatrixInit(n,m)
-    print(scrMatInit)
 
+    print(scrMatInit)
+    # FINISH filling up the score matix. Change based on levinstein or confusion
+    scrMatrix = fillScoreMatrix(n,m,scrMatInit)
+
+    print(scrMatrix)
 
 
 ######################### CLASSES ##########################
@@ -55,6 +57,25 @@ class WordObj:
 
 
 ##################### Manage Words and CSV files ###########################
+def fillScoreMatrix(n,m,scoreMat):
+    n,m = n+1,m+1
+    i,j = n,m
+    for i in range(1,n):
+        for j in range(1,m):
+            scoreMat[i][j] = return_min(scoreMat, i, j)
+    return scoreMat
+
+def return_min(matrix, i, j):
+    add = 0
+    gap_penalty = 1
+    # diag = (matrix[j-1,i-1] + add)
+    # left = (matrix[j,i-1] + gap_penalty)
+    # up = (matrix[j-1,i] + gap_penalty)
+    #
+    # min_val = min(diag,left,up)
+    # return min_val
+    return 1
+
 def scoreMatrixInit(n,m):
     n,m = n+1,m+1
     i,j = n,m
@@ -83,22 +104,6 @@ def openCSVFile(file):
             a.append(r)
     return a
 
-def print_matrix(score_matrix, top_seq_col, left_seq_row):
-    leng = len(left_seq_row)
-    print("    G A A T T C A G T T A")
-    for i in range(score_matrix.shape[0]):
-        if i == 0:
-            print("  ", end="")
-        else:
-            print(left_seq_row[i-1], end=" ")
-        for j in range(score_matrix.shape[1]):
-            num = score_matrix[i,j]
-            if num < 0:
-                print(score_matrix[i,j],end='')
-            else:
-                print(score_matrix[i,j],end=' ')
-        print()
-    print()
 
 if __name__ == '__main__':
     main()
