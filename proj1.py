@@ -25,7 +25,10 @@ def main():
 
     print(scrMatInit)
     # FINISH filling up the score matix. Change based on levinstein or confusion
-    scrMatrix = fillScoreMatrix(n,m,scrMatInit)
+    targetString = item1.targetWord
+    sourceString = item1.sourceList[0]
+
+    scrMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
 
     print(scrMatrix)
 
@@ -57,24 +60,28 @@ class WordObj:
 
 
 ##################### Manage Words and CSV files ###########################
-def fillScoreMatrix(n,m,scoreMat):
+def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
     n,m = n+1,m+1
     i,j = n,m
     for i in range(1,n):
         for j in range(1,m):
-            scoreMat[i][j] = return_min(scoreMat, i, j)
+            scoreMat[i][j] = return_min(i, j,scoreMat, targetString, sourceString)
     return scoreMat
 
-def return_min(matrix, i, j):
+def return_min(i, j, matrix, targetString, sourceString):
+    sourceLetter = sourceString[i-1]
+    print("source letter {}".format(sourceLetter))
+    targetLetter = targetString[j-1]
+    print("target letter {}".format(targetLetter))
     add = 0
     gap_penalty = 1
-    # diag = (matrix[j-1,i-1] + add)
-    # left = (matrix[j,i-1] + gap_penalty)
-    # up = (matrix[j-1,i] + gap_penalty)
-    #
-    # min_val = min(diag,left,up)
-    # return min_val
-    return 1
+    left = matrix[i-1,j] + 1 # delete cost of source(i)
+    up = matrix[i,j-1] + 1 # ins cost of target(j)
+    diag = matrix[i-1,j-1] + 2
+
+    min_val = min(diag,left,up)
+    return min_val
+
 
 def scoreMatrixInit(n,m):
     n,m = n+1,m+1
