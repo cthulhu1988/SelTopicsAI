@@ -22,50 +22,28 @@ def main():
     leviObj = matrixObj(openCSVFile(leviDistance)); confObj = matrixObj(openCSVFile(confDistance))
     wordObjList = (openTXTFile(wordList))
 
+    for y, wObj in enumerate(wordObjList):
     ############ LOOP THROUGH ###################
-    item1 = wordObjList[0]
-    n,m = item1.getSrcLeng(0), item1.getTrgtLeng()
-
-
+        for x in range(wObj.getListLeng()):
+            n,m = wObj.getSrcWordLeng(x), wObj.getTrgtLeng()
     # GET BACK intialized matrix.
-    scrMatInit = scoreMatrixInit(n,m)
-
-    #print(scrMatInit)
+            scrMatInit = scoreMatrixInit(n,m)
     # FINISH filling up the score matix. Change based on levinstein or confusion
-    targetString = item1.targetWord
-    sourceString = item1.sourceList[0]
+            targetString = wObj.targetWord
+            sourceString = wObj.sourceList[x]
 
-    scrMatrix, traceback_list, node_list = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
+            scrMatrix, traceback_list, node_list,cost = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
 
+            final_seq1, final_seq2 = findSequences(node_list, targetString, sourceString)
+            printFinalOutput(final_seq1, final_seq2, cost)
+        print("-"*50)
 
-    findSequences(node_list, targetString, sourceString)
-
-    # path_list = []
-    # node_list.reverse()
-    #
-    # node = node_list[0]
-    # path_obj = pathObj(node.x, node.y)
-    # path_list.append(path_obj)
-    # pre_x = node.prev_x ; pre_y = node.prev_y
-    # for x in range(1,len(node_list)):
-    #     node = node_list[x]
-    #     if node.x == pre_x and node.y == pre_y:
-    #         pre_x = node.prev_x ; pre_y = node.prev_y
-    #         path_obj = pathObj(node.x, node.y)
-    #         path_list.append(path_obj)
-    #
-    # path_obj = pathObj(node.prev_x, node.prev_y)
-    # path_list.append(path_obj)
-    #
-    # final_seq1, final_seq2 = traceback(path_list, targetString, sourceString)
-    # final_seq1 = final_seq1[::-1]
-    # final_seq2 = final_seq2[::-1]
-    # print(final_seq1)
-    # print(final_seq2)
-
-
-    #print(scrMatrix)
-
+def printFinalOutput(final_seq1, final_seq2, cost):
+    sepLeng = len(final_seq1)
+    print(final_seq1)
+    print("|"*sepLeng)
+    print("{} ({})".format(final_seq2, cost))
+    print()
 
 ######################### CLASSES ##########################
 class pathObj:
@@ -101,8 +79,10 @@ class WordObj:
         self.sourceList = list[1:]
     def getTrgtLeng(self):
         return len(self.targetWord)
-    def getSrcLeng(self, num=0):
+    def getSrcWordLeng(self, num=0):
         return len(self.sourceList[num])
+    def getListLeng(self):
+        return len(self.sourceList)
     def printList(self):
         print("Target word is {}".format(self.targetWord))
         print("Source Words are: ")
@@ -123,6 +103,7 @@ class TraceObj(object):
         self.prev_y = None
 
     def set_dir(self):
+        # TODO: Import random
         if "diag" in self.direction_list:
             self.diag = [self.x-1, self.y-1]
         if "up" in self.direction_list:
@@ -162,13 +143,14 @@ def findSequences(node_list, targetString, sourceString):
 
     path_obj = pathObj(node.prev_x, node.prev_y)
     path_list.append(path_obj)
+    for node in path_list:
+        node.print_stats()
 
     final_seq1, final_seq2 = traceback(path_list, targetString, sourceString)
     final_seq1 = final_seq1[::-1]
     final_seq2 = final_seq2[::-1]
-    print(final_seq1)
-    print(final_seq2)
 
+    return final_seq1, final_seq2
 
 def traceback(path_list, trgtPhrase, sourcePhrase):
     new_seq1 = ""
@@ -176,21 +158,27 @@ def traceback(path_list, trgtPhrase, sourcePhrase):
 
     seq1 = "Z";seq2 = "Z"
     seq2 += trgtPhrase ; seq1 += sourcePhrase
+    print("source: ",seq1)
+    print("target: ",seq2)
     seq1_len = len(seq1) ; seq2_len = len(seq2)
 
-    print(seq1)
     path_node = path_list[0]
-    path_node.print_stats()
     for idx in range(1,len(path_list)):
+        print("X: {} and letter {}".format(path_node.x, seq1[path_node.x]))
+        print("Y: {} and letter {}".format(path_node.y, seq2[path_node.y]))
         path_node - path_list[idx]
-        if path_node.sub_x == 1:
-             new_seq1 += (seq1[path_node.x])
-        else:
-            new_seq1 += "*"
+
         if path_node.sub_y == 1:
             new_seq2 += (seq2[path_node.y])
         else:
             new_seq2 += "*"
+
+        if path_node.sub_x == 1:
+            new_seq1 += (seq1[path_node.x])
+        else:
+            new_seq1 += "*"
+
+
         path_node = path_list[idx]
     return new_seq1, new_seq2
 
@@ -208,15 +196,17 @@ def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
             scoreMat[i][j], new_row, node = return_min(i, j,scoreMat, targetString, sourceString)
             traceback_list.append(new_row)
             node_list.append(node)
-    return scoreMat, traceback_list, node_list
+    cost = (scoreMat[n-1][m-1])
+    return scoreMat, traceback_list, node_list, cost
 
 def return_min(i, j, matrix, targetString, sourceString):
-    sourceLetter = ord(sourceString[i-1]) -96
-    targetLetter = ord(targetString[j-1]) - 96
-    #print(sourceString[i-1], sourceLetter)
-    #print("source letter {} target letter {}".format(sourceString[i-1], targetString[j-1]))
-    add = 0
-    gap_penalty = 1
+    #print("source letter {} target letter {}".format(targetString[i-1]))
+    # print("target string {}".format(targetString))
+    # print("source string {}".format(sourceString))
+
+    targetLetter = ord(targetString[j-1])-96
+    sourceLetter = ord(sourceString[i-1])-96
+
     left = matrix[i-1,j] + 1 # delete cost of source(i)
     up = matrix[i,j-1] + 1 # ins cost of target(j)
     diag = matrix[i-1,j-1] + leviObj.getCost(sourceLetter,targetLetter)
