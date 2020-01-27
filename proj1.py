@@ -32,35 +32,25 @@ def main():
             targetString = wObj.targetWord
             sourceString = wObj.sourceList[x]
 
-            scrMatrix, traceback_list, node_list,cost = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
+            scrMatrix, cost, PMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
+            print(scrMatrix)
 
-            final_seq1, final_seq2 = findSequences(node_list, targetString, sourceString)
-            printFinalOutput(final_seq1, final_seq2, cost)
+            final_seq1, final_seq2, changes = findSequences(PMatrix, targetString, sourceString)
+            changes = changes[::-1]
+            final_seq1 = final_seq1[::-1]
+            final_seq2 = final_seq2[::-1]
+            printFinalOutput(final_seq1, final_seq2, cost,changes)
         print("-"*50)
 
-def printFinalOutput(final_seq1, final_seq2, cost):
+def printFinalOutput(final_seq1, final_seq2, cost, changes):
     sepLeng = len(final_seq1)
-    print(final_seq1)
+    print(final_seq2)
     print("|"*sepLeng)
-    print("{} ({})".format(final_seq2, cost))
+    print("{} ({})".format(final_seq1, cost))
+    print(changes)
     print()
 
 ######################### CLASSES ##########################
-class pathObj:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.sub_x = None
-        self.sub_y = None
-    def __sub__(self, obj):
-        self.sub_x = (self.x - obj.x)
-        self.sub_y = (self.y - obj.y)
-
-    def print_stats(self):
-        print("X {} and Y {}".format(self.x, self.y))
-
-    def print_sub(self):
-        print("sub X {} and sub Y {}".format(self.sub_x, self.sub_y))
 
 class matrixObj:
     def __init__(self, array):
@@ -90,119 +80,82 @@ class WordObj:
             print(word, end=" ")
         print()
 
-class TraceObj(object):
-    def __init__(self, x, y):
-        self.direction_list =[]
-        self.x = x
-        self.y = y
-        self.left = None
-        self.up = None
-        self.diag = None
-        self.previous = None
-        self.prev_x = None
-        self.prev_y = None
-
-    def set_dir(self):
-        # TODO: Import random
-        if "diag" in self.direction_list:
-            self.diag = [self.x-1, self.y-1]
-        if "up" in self.direction_list:
-            self.up = [self.x, self.y-1]
-        if "left" in self.direction_list:
-            self.left = [self.x-1, self.y]
-        if self.up:
-            self.previous = self.up
-            self.prev_x = self.previous[0]
-            self.prev_y = self.previous[1]
-        if self.left:
-            self.previous = self.left
-            self.prev_x = self.previous[0]
-            self.prev_y = self.previous[1]
-        if self.diag:
-            self.previous = self.diag
-            self.prev_x = self.previous[0]
-            self.prev_y = self.previous[1]
-    def print_stats(self):
-        print("current point -> x {} y {} ::: next point - > x {} y {} ".format(self.x, self.y, self.prev_x, self.prev_y))
-
 ####################FUNCTIONS###########################################################
-def findSequences(node_list, targetString, sourceString):
-    path_list = []
-    node_list.reverse()
+def findSequences(PMatrix, targetString, sourceString):
+    TRG_SEQ = ""
+    SRC_SEQ = ""
+    changes = ""
+    i = len(targetString); j = len(sourceString)
+    current_node = PMatrix[j][i]
+    print(current_node)
+    print("target word {} and source word {}".format(targetString, sourceString))
+    while i >= 0 or j >= 0:
+        print("PMATRIX {}".format(PMatrix[j][i]))
 
-    node = node_list[0]
-    path_obj = pathObj(node.x, node.y)
-    path_list.append(path_obj)
-    pre_x = node.prev_x ; pre_y = node.prev_y
-    for x in range(1,len(node_list)):
-        node = node_list[x]
-        if node.x == pre_x and node.y == pre_y:
-            pre_x = node.prev_x ; pre_y = node.prev_y
-            path_obj = pathObj(node.x, node.y)
-            path_list.append(path_obj)
+        if PMatrix[j][i] == "\\":
+            i-=1; j-=1
+            TRG_SEQ += targetString[i]
+            SRC_SEQ += sourceString[j]
+            print("target word[] {} and source word[] {}".format(targetString[i], sourceString[j]))
+            if sourceString[j] == targetString[i]:
+                changes += "k"
+            else:
+                changes += "s"
+            current_node = "\\"
 
-    path_obj = pathObj(node.prev_x, node.prev_y)
-    path_list.append(path_obj)
-    for node in path_list:
-        node.print_stats()
+        elif PMatrix[j][i] == "^":
+            j-=1
+            changes += "d"
+            if current_node != "^":
+                TRG_SEQ += targetString[i]
+            current_node = "^"
 
-    final_seq1, final_seq2 = traceback(path_list, targetString, sourceString)
-    final_seq1 = final_seq1[::-1]
-    final_seq2 = final_seq2[::-1]
+        elif PMatrix[j][i] == "<":
+            i-=1
+            changes+="i"
+            if current_node != "<":
+                SRC_SEQ += "*"
+                TRG_SEQ += targetString[i]
+            current_node == "<"
 
-    return final_seq1, final_seq2
+        elif PMatrix[j][i] == 0:
+            break
 
-def traceback(path_list, trgtPhrase, sourcePhrase):
-    new_seq1 = ""
-    new_seq2 = ""
-
-    seq1 = "Z";seq2 = "Z"
-    seq2 += trgtPhrase ; seq1 += sourcePhrase
-    print("source: ",seq1)
-    print("target: ",seq2)
-    seq1_len = len(seq1) ; seq2_len = len(seq2)
-
-    path_node = path_list[0]
-    for idx in range(1,len(path_list)):
-        print("X: {} and letter {}".format(path_node.x, seq1[path_node.x]))
-        print("Y: {} and letter {}".format(path_node.y, seq2[path_node.y]))
-        path_node - path_list[idx]
-
-        if path_node.sub_y == 1:
-            new_seq2 += (seq2[path_node.y])
-        else:
-            new_seq2 += "*"
-
-        if path_node.sub_x == 1:
-            new_seq1 += (seq1[path_node.x])
-        else:
-            new_seq1 += "*"
+    print("i {} and j {}".format(i,j))
+    while i > 0:
+        TRG_SEQ += (targetString[i-1])
+        SRC_SEQ += ("*")
+        i -= 1
+    while j > 0:
+        SRC_SEQ += (sourceString[j-1])
+        TRG_SEQ += ("*")
+        j -= 1
 
 
-        path_node = path_list[idx]
-    return new_seq1, new_seq2
-
+    return TRG_SEQ,SRC_SEQ, changes
 
 def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
     n,m = n+1,m+1
     i,j = n,m
 
-    traceback_list = []
-    counter = 0
-    node_list = []
+    pointer_list = []
+    w, h = scoreMat.shape
+    PMatrix = [[0 for x in range(h)] for y in range(w)]
 
     for i in range(1,n):
         for j in range(1,m):
-            scoreMat[i][j], new_row, node = return_min(i, j,scoreMat, targetString, sourceString)
-            traceback_list.append(new_row)
-            node_list.append(node)
+            scoreMat[i][j], pointer = return_min(i, j,scoreMat, targetString, sourceString)
+            pointer_list.append(pointer)
+            PMatrix[i][j] = pointer
     cost = (scoreMat[n-1][m-1])
-    return scoreMat, traceback_list, node_list, cost
+
+    for x in range(w):
+        for y in range(h):
+            print(PMatrix[x][y],end=" ")
+        print()
+    return scoreMat, cost, PMatrix
 
 def return_min(i, j, matrix, targetString, sourceString):
-    #print("source letter {} target letter {}".format(targetString[i-1]))
-    # print("target string {}".format(targetString))
-    # print("source string {}".format(sourceString))
 
     targetLetter = ord(targetString[j-1])-96
     sourceLetter = ord(sourceString[i-1])-96
@@ -210,10 +163,9 @@ def return_min(i, j, matrix, targetString, sourceString):
     left = matrix[i-1,j] + 1 # delete cost of source(i)
     up = matrix[i,j-1] + 1 # ins cost of target(j)
     diag = matrix[i-1,j-1] + leviObj.getCost(sourceLetter,targetLetter)
-    #print(diag)
-    #print(leviObj.getCost(sourceLetter,targetLetter))
+
     new_row = []
-    new_row_dict ={"left":left,"up":up,"diag":diag}
+    new_row_dict ={"<":left,"^":up,"\\":diag}
     min_val = 1000
     key_value = ""
     for k,v in new_row_dict.items():
@@ -223,14 +175,9 @@ def return_min(i, j, matrix, targetString, sourceString):
     for key, value in new_row_dict.items():
         if value == min_val:
             new_row.append(key)
-
-    node = TraceObj(i,j)
-    node.direction_list = new_row
-    node.set_dir()
-    new_row.append(i)
-    new_row.append(j)
-    min_val = min(diag,left,up)
-    return min_val, new_row, node
+    # Choose a random path.
+    RAND_DIRECTION = new_row[random.randrange(0,len(new_row))]
+    return min_val, RAND_DIRECTION
 
 def scoreMatrixInit(n,m):
     n,m = n+1,m+1
