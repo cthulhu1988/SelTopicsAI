@@ -3,12 +3,14 @@
 #CSCI 6350-001
 #Project #1
 #Due: 01/30/20
-
+# From book:
+    # TARGET -> TOP , Y, n, i
+    # Source -> SIDE LEFT , X, m, j
+    # n/i is leng of source X string and m/j in leng of Target Y string
+    # source is the siderow X , target is the top Y row
 import csv
-import math, sys
 import random
 import numpy as np
-from numpy import genfromtxt
 
 def main():
     # hardcoded files to be imported
@@ -17,16 +19,14 @@ def main():
     # object with 2d array wherein matices and word lists reside.
     global leviObj
     global confObj
-    leviObj = matrixObj(openCSVFile(leviDistance));
-    confObj = matrixObj(openCSVFile(confDistance))
+    leviObj = matrixObj(openCSVFile(leviDistance)); confObj = matrixObj(openCSVFile(confDistance))
     wordObjList = (openTXTFile(wordList))
 
+    ############ LOOP THROUGH ###################
     item1 = wordObjList[0]
     n,m = item1.getSrcLeng(0), item1.getTrgtLeng()
-    # TARGET -> TOP , Y, n, i
-    # Source -> SIDE LEFT , X, m, j
-    # n/i is leng of source X string and m/j in leng of Target Y string
-    # source is the siderow X , target is the top Y_row
+
+
     # GET BACK intialized matrix.
     scrMatInit = scoreMatrixInit(n,m)
 
@@ -38,37 +38,33 @@ def main():
     scrMatrix, traceback_list, node_list = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
 
 
-    path_list = []
-    node_list.reverse()
+    findSequences(node_list, targetString, sourceString)
 
-    node = node_list[0]
-    path_obj = pathObj(node.x, node.y)
-    path_list.append(path_obj)
-    pre_x = node.prev_x ; pre_y = node.prev_y
-    for x in range(1,len(node_list)):
-        node = node_list[x]
-        if node.x == pre_x and node.y == pre_y:
-            pre_x = node.prev_x ; pre_y = node.prev_y
-            path_obj = pathObj(node.x, node.y)
-            path_list.append(path_obj)
-
-    path_obj = pathObj(node.prev_x, node.prev_y)
-    path_list.append(path_obj)
-
-    top_seq_col = targetString
-    left_seq_row = sourceString
-
-    for item in path_list:
-        item.print_stats()
-
-    final_seq1, final_seq2 = traceback(path_list, top_seq_col, left_seq_row)
-    final_seq1 = final_seq1[::-1]
-    final_seq2 = final_seq2[::-1]
-    print(final_seq1)
-    print(final_seq2)
+    # path_list = []
+    # node_list.reverse()
+    #
+    # node = node_list[0]
+    # path_obj = pathObj(node.x, node.y)
+    # path_list.append(path_obj)
+    # pre_x = node.prev_x ; pre_y = node.prev_y
+    # for x in range(1,len(node_list)):
+    #     node = node_list[x]
+    #     if node.x == pre_x and node.y == pre_y:
+    #         pre_x = node.prev_x ; pre_y = node.prev_y
+    #         path_obj = pathObj(node.x, node.y)
+    #         path_list.append(path_obj)
+    #
+    # path_obj = pathObj(node.prev_x, node.prev_y)
+    # path_list.append(path_obj)
+    #
+    # final_seq1, final_seq2 = traceback(path_list, targetString, sourceString)
+    # final_seq1 = final_seq1[::-1]
+    # final_seq2 = final_seq2[::-1]
+    # print(final_seq1)
+    # print(final_seq2)
 
 
-    print(scrMatrix)
+    #print(scrMatrix)
 
 
 ######################### CLASSES ##########################
@@ -91,9 +87,6 @@ class pathObj:
 class matrixObj:
     def __init__(self, array):
         self.array = array
-
-    # TARGET -> TOP , Y, n, i ROW
-    # Source -> SIDE LEFT , X, m, j
     def printMatrix(self):
         print(np.shape(self.array))
         for row in self.array:
@@ -151,12 +144,60 @@ class TraceObj(object):
     def print_stats(self):
         print("current point -> x {} y {} ::: next point - > x {} y {} ".format(self.x, self.y, self.prev_x, self.prev_y))
 
+####################FUNCTIONS###########################################################
+def findSequences(node_list, targetString, sourceString):
+    path_list = []
+    node_list.reverse()
 
-##################### Manage Words and CSV files ###########################
+    node = node_list[0]
+    path_obj = pathObj(node.x, node.y)
+    path_list.append(path_obj)
+    pre_x = node.prev_x ; pre_y = node.prev_y
+    for x in range(1,len(node_list)):
+        node = node_list[x]
+        if node.x == pre_x and node.y == pre_y:
+            pre_x = node.prev_x ; pre_y = node.prev_y
+            path_obj = pathObj(node.x, node.y)
+            path_list.append(path_obj)
+
+    path_obj = pathObj(node.prev_x, node.prev_y)
+    path_list.append(path_obj)
+
+    final_seq1, final_seq2 = traceback(path_list, targetString, sourceString)
+    final_seq1 = final_seq1[::-1]
+    final_seq2 = final_seq2[::-1]
+    print(final_seq1)
+    print(final_seq2)
+
+
+def traceback(path_list, trgtPhrase, sourcePhrase):
+    new_seq1 = ""
+    new_seq2 = ""
+
+    seq1 = "Z";seq2 = "Z"
+    seq2 += trgtPhrase ; seq1 += sourcePhrase
+    seq1_len = len(seq1) ; seq2_len = len(seq2)
+
+    print(seq1)
+    path_node = path_list[0]
+    path_node.print_stats()
+    for idx in range(1,len(path_list)):
+        path_node - path_list[idx]
+        if path_node.sub_x == 1:
+             new_seq1 += (seq1[path_node.x])
+        else:
+            new_seq1 += "*"
+        if path_node.sub_y == 1:
+            new_seq2 += (seq2[path_node.y])
+        else:
+            new_seq2 += "*"
+        path_node = path_list[idx]
+    return new_seq1, new_seq2
+
+
 def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
     n,m = n+1,m+1
     i,j = n,m
-
 
     traceback_list = []
     counter = 0
@@ -181,7 +222,6 @@ def return_min(i, j, matrix, targetString, sourceString):
     diag = matrix[i-1,j-1] + leviObj.getCost(sourceLetter,targetLetter)
     #print(diag)
     #print(leviObj.getCost(sourceLetter,targetLetter))
-
     new_row = []
     new_row_dict ={"left":left,"up":up,"diag":diag}
     min_val = 1000
@@ -193,17 +233,14 @@ def return_min(i, j, matrix, targetString, sourceString):
     for key, value in new_row_dict.items():
         if value == min_val:
             new_row.append(key)
-    print(new_row)
 
     node = TraceObj(i,j)
     node.direction_list = new_row
     node.set_dir()
     new_row.append(i)
     new_row.append(j)
-
     min_val = min(diag,left,up)
     return min_val, new_row, node
-
 
 def scoreMatrixInit(n,m):
     n,m = n+1,m+1
@@ -221,7 +258,6 @@ def openTXTFile(file):
     for row in f:
         row = row.split()
         listWordObjs.append(WordObj(row))
-
     return listWordObjs
 
 def openCSVFile(file):
@@ -230,33 +266,5 @@ def openCSVFile(file):
     rows = [row for row in lev]
     return rows
 
-def traceback(path_list, top_seq_col, left_seq_row):
-    new_seq1 = ""
-    new_seq2 = ""
-
-
-    seq1 = "Z";seq2 = "Z"
-    seq1 += top_seq_col ; seq2 += left_seq_row
-    seq1_len = len(seq1) ; seq2_len = len(seq2)
-
-    print(seq1)
-    path_node = path_list[0]
-    path_node.print_stats()
-    for idx in range(1,len(path_list)):
-        path_node - path_list[idx]
-        print(path_node.sub_x)
-        if path_node.sub_x >= 1:
-             new_seq1 += (seq1[path_node.x])
-             print(new_seq1)
-        else:
-            new_seq1 += "-"
-        if path_node.sub_y >= 1:
-            print(seq2[path_node.y])
-            print("New sequence 2 {}".format(seq2))
-            #new_seq2 += (seq2[path_node.y])
-    #     else:
-    #         new_seq2 += "-"
-    #     path_node = path_list[idx]
-    return new_seq1, new_seq2
 if __name__ == '__main__':
     main()
