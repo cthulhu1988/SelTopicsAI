@@ -87,15 +87,15 @@ def findSequences(PMatrix, targetString, sourceString):
     current_node = PMatrix[j][i]
 
     print("target word {} and source word {}".format(targetString, sourceString))
-    ii = i-1; jj = j-1;
+    # navigate traceback array, start at bottom right.
+
     while i >= 0 or j >= 0:
-        #print("PMATRIX {}".format(PMatrix[j][i]))
         if PMatrix[j][i] == "\\":
-            i-=1;
+            current_node = "\\"
+            i-=1
             j-=1
             TRG_SEQ += targetString[i]
             SRC_SEQ += sourceString[j]
-            print("target word[] {} and source word[] {}".format(targetString[i], sourceString[j]))
             if sourceString[j] == targetString[i]:
                 changes += "k"
             else:
@@ -104,31 +104,24 @@ def findSequences(PMatrix, targetString, sourceString):
         elif PMatrix[j][i] == "^":
             j-=1
             changes += "d"
-            if ii >= 0:
-                print(ii)
-                TRG_SEQ += targetString[ii]
-                ii -= 1
-            else:
-                TRG_SEQ += "*"
+            #SRC_SEQ += "^"
 
         elif PMatrix[j][i] == "<":
+            current_node = "<"
             i-=1
             changes+="i"
-            SRC_SEQ += "*"
-            TRG_SEQ += targetString[i]
-            current_node == "<"
+            SRC_SEQ += "<"
+            TRG_SEQ += targetString[i-1]
         elif PMatrix[j][i] == 0:
             break
 
     print("i {} and j {}".format(i,j))
     while i > 0:
         TRG_SEQ += (targetString[i-1])
-        print("TRG :", TRG_SEQ)
         SRC_SEQ += ("*")
         i -= 1
     while j > 0:
-        SRC_SEQ += (sourceString[j-1])
-        print("SRC: ", SRC_SEQ)
+        SRC_SEQ += (sourceString[j])
         TRG_SEQ += ("*")
         j -= 1
     return TRG_SEQ,SRC_SEQ, changes
@@ -171,6 +164,7 @@ def return_min(i, j, matrix, targetString, sourceString):
         if v < min_val:
             min_val = v
             key_value = k
+
     for key, value in new_row_dict.items():
         if value == min_val:
             new_row.append(key)
