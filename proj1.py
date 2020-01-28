@@ -82,18 +82,17 @@ class WordObj:
 
 ####################FUNCTIONS###########################################################
 def findSequences(PMatrix, targetString, sourceString):
-    TRG_SEQ = ""
-    SRC_SEQ = ""
-    changes = ""
+    TRG_SEQ = ""; SRC_SEQ = ""; changes = ""
     i = len(targetString); j = len(sourceString)
     current_node = PMatrix[j][i]
-    print(current_node)
-    print("target word {} and source word {}".format(targetString, sourceString))
-    while i >= 0 or j >= 0:
-        print("PMATRIX {}".format(PMatrix[j][i]))
 
+    print("target word {} and source word {}".format(targetString, sourceString))
+    ii = i-1; jj = j-1;
+    while i >= 0 or j >= 0:
+        #print("PMATRIX {}".format(PMatrix[j][i]))
         if PMatrix[j][i] == "\\":
-            i-=1; j-=1
+            i-=1;
+            j-=1
             TRG_SEQ += targetString[i]
             SRC_SEQ += sourceString[j]
             print("target word[] {} and source word[] {}".format(targetString[i], sourceString[j]))
@@ -101,37 +100,37 @@ def findSequences(PMatrix, targetString, sourceString):
                 changes += "k"
             else:
                 changes += "s"
-            current_node = "\\"
 
         elif PMatrix[j][i] == "^":
             j-=1
             changes += "d"
-            if current_node != "^":
-                TRG_SEQ += targetString[i]
-            current_node = "^"
+            if ii >= 0:
+                print(ii)
+                TRG_SEQ += targetString[ii]
+                ii -= 1
+            else:
+                TRG_SEQ += "*"
 
         elif PMatrix[j][i] == "<":
             i-=1
             changes+="i"
-            if current_node != "<":
-                SRC_SEQ += "*"
-                TRG_SEQ += targetString[i]
+            SRC_SEQ += "*"
+            TRG_SEQ += targetString[i]
             current_node == "<"
-
         elif PMatrix[j][i] == 0:
             break
 
     print("i {} and j {}".format(i,j))
     while i > 0:
         TRG_SEQ += (targetString[i-1])
+        print("TRG :", TRG_SEQ)
         SRC_SEQ += ("*")
         i -= 1
     while j > 0:
         SRC_SEQ += (sourceString[j-1])
+        print("SRC: ", SRC_SEQ)
         TRG_SEQ += ("*")
         j -= 1
-
-
     return TRG_SEQ,SRC_SEQ, changes
 
 def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
@@ -159,11 +158,11 @@ def return_min(i, j, matrix, targetString, sourceString):
 
     targetLetter = ord(targetString[j-1])-96
     sourceLetter = ord(sourceString[i-1])-96
-
+    #print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
     left = matrix[i-1,j] + 1 # delete cost of source(i)
     up = matrix[i,j-1] + 1 # ins cost of target(j)
     diag = matrix[i-1,j-1] + leviObj.getCost(sourceLetter,targetLetter)
-
+    #print("left {} up {} diag {}".format(left, up, diag))
     new_row = []
     new_row_dict ={"<":left,"^":up,"\\":diag}
     min_val = 1000
@@ -176,7 +175,9 @@ def return_min(i, j, matrix, targetString, sourceString):
         if value == min_val:
             new_row.append(key)
     # Choose a random path.
+    #print(new_row)
     RAND_DIRECTION = new_row[random.randrange(0,len(new_row))]
+    #print("direction choosen {}".format(RAND_DIRECTION))
     return min_val, RAND_DIRECTION
 
 def scoreMatrixInit(n,m):
