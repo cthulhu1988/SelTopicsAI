@@ -84,13 +84,15 @@ class WordObj:
 def findSequences(PMatrix, targetString, sourceString):
     TRG_SEQ = ""; SRC_SEQ = ""; changes = ""
     i = len(targetString); j = len(sourceString)
-    current_node = PMatrix[j][i]
-
     print("target word {} and source word {}".format(targetString, sourceString))
-    # navigate traceback array, start at bottom right.
 
+    # navigate traceback array, start at bottom right.
     while i >= 0 or j >= 0:
-        if PMatrix[j][i] == "\\":
+        # RANDOMLY CHOOSE NEXT DIRECTION
+        list_pointer = [x for x in PMatrix[j][i]]
+        rand_item = list_pointer[random.randrange(0,len(list_pointer))]
+
+        if rand_item == "\\":
             current_node = "\\"
             i-=1
             j-=1
@@ -101,19 +103,21 @@ def findSequences(PMatrix, targetString, sourceString):
             else:
                 changes += "s"
 
-        elif PMatrix[j][i] == "^":
+        elif rand_item == "^":
             j-=1
             changes += "d"
             #SRC_SEQ += "^"
 
-        elif PMatrix[j][i] == "<":
+        elif rand_item == "<":
             current_node = "<"
             i-=1
             changes+="i"
             SRC_SEQ += "*"
             TRG_SEQ += targetString[i]
-        elif PMatrix[j][i] == 0:
+        elif rand_item == "0":
             break
+        else:
+            pass
 
     print("i {} and j {}".format(i,j))
     while i > 0:
@@ -132,7 +136,7 @@ def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
 
     pointer_list = []
     w, h = scoreMat.shape
-    PMatrix = [[0 for x in range(h)] for y in range(w)]
+    PMatrix = [["0" for x in range(h)] for y in range(w)]
 
     for i in range(1,n):
         for j in range(1,m):
@@ -151,15 +155,14 @@ def return_min(i, j, matrix, targetString, sourceString):
 
     targetLetter = ord(targetString[j-1])-96
     sourceLetter = ord(sourceString[i-1])-96
-    #print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
     left = matrix[i-1,j] + 1 # delete cost of source(i)
     up = matrix[i,j-1] + 1 # ins cost of target(j)
     diag = matrix[i-1,j-1] + leviObj.getCost(sourceLetter,targetLetter)
-    #print("left {} up {} diag {}".format(left, up, diag))
     new_row = []
     new_row_dict ={"<":left,"^":up,"\\":diag}
     min_val = 1000
     key_value = ""
+    new_string = ""
     for k,v in new_row_dict.items():
         if v < min_val:
             min_val = v
@@ -167,12 +170,11 @@ def return_min(i, j, matrix, targetString, sourceString):
 
     for key, value in new_row_dict.items():
         if value == min_val:
-            new_row.append(key)
-    # Choose a random path.
-    #print(new_row)
-    RAND_DIRECTION = new_row[random.randrange(0,len(new_row))]
+            #new_row.append(key)
+            new_string+=key
+    #RAND_DIRECTION = new_row[random.randrange(0,len(new_row))]
     #print("direction choosen {}".format(RAND_DIRECTION))
-    return min_val, RAND_DIRECTION
+    return min_val, new_string
 
 def scoreMatrixInit(n,m):
     n,m = n+1,m+1
