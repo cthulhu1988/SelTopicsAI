@@ -3,11 +3,7 @@
 #CSCI 6350-001
 #Project #1
 #Due: 01/30/20
-# From book:
-    # TARGET -> TOP , Y, n, i
-    # Source -> SIDE LEFT , X, m, j
-    # n/i is leng of source X string and m/j in leng of Target Y string
-    # source is the siderow X , target is the top Y row
+
 import csv
 import random
 import numpy as np
@@ -32,22 +28,29 @@ def main():
             targetString = wObj.targetWord
             sourceString = wObj.sourceList[x]
 
-            scrMatrix, cost, PMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString)
-            print(scrMatrix)
 
+            scrMatrix, cost, PMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString, leviObj)
             final_seq1, final_seq2, changes = findSequences(PMatrix, targetString, sourceString)
             changes = changes[::-1]
             final_seq1 = final_seq1[::-1]
             final_seq2 = final_seq2[::-1]
             printFinalOutput(final_seq1, final_seq2, cost,changes)
-        print("-"*50)
+
+            scrMatrix, cost, PMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString, confObj)
+            final_seq1, final_seq2, changes = findSequences(PMatrix, targetString, sourceString)
+            changes = changes[::-1]
+            final_seq1 = final_seq1[::-1]
+            final_seq2 = final_seq2[::-1]
+            printFinalOutput(final_seq1, final_seq2, cost,changes)
+
+            print("-"*50)
 
 def printFinalOutput(final_seq1, final_seq2, cost, changes):
     sepLeng = len(final_seq1)
     print(final_seq2)
     print("|"*sepLeng)
-    print("{} ({})".format(final_seq1, cost))
-    print(changes)
+    print("{}".format(final_seq1))
+    print("{} ({})".format(changes, cost))
     print()
 
 ######################### CLASSES ##########################
@@ -74,8 +77,8 @@ class WordObj:
     def getListLeng(self):
         return len(self.sourceList)
     def printList(self):
-        print("Target word is {}".format(self.targetWord))
-        print("Source Words are: ")
+        #print("Target word is {}".format(self.targetWord))
+        #print("Source Words are: ")
         for word in self.sourceList:
             print(word, end=" ")
         print()
@@ -84,7 +87,7 @@ class WordObj:
 def findSequences(PMatrix, targetString, sourceString):
     TRG_SEQ = ""; SRC_SEQ = ""; changes = ""
     i = len(targetString); j = len(sourceString)
-    print("target word {} and source word {}".format(targetString, sourceString))
+    #print("target word {} and source word {}".format(targetString, sourceString))
 
     # navigate traceback array, start at bottom right.
     while i >= 0 or j >= 0:
@@ -95,7 +98,7 @@ def findSequences(PMatrix, targetString, sourceString):
         i -=1
         if i >=0:
             TRG_SEQ += targetString[i]
-            print("TRG_SEQ {}".format(TRG_SEQ))
+            #print("TRG_SEQ {}".format(TRG_SEQ))
         ############ iterate through possible pointers ##############
         if rand_item == "\\":
             j-=1
@@ -119,7 +122,7 @@ def findSequences(PMatrix, targetString, sourceString):
         elif rand_item == "0":
             break
 
-    print("i {} and j {}".format(i,j))
+    #print("i {} and j {}".format(i,j))
     i-= 1; j -=1
     while i >= 0:
         SRC_SEQ += "*"
@@ -133,7 +136,7 @@ def findSequences(PMatrix, targetString, sourceString):
         j -= 1
     return TRG_SEQ,SRC_SEQ, changes
 
-def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
+def fillScoreMatrix(n,m,scoreMat, targetString, sourceString, matrix_obj):
     n,m = n+1,m+1
     i,j = n,m
 
@@ -143,24 +146,24 @@ def fillScoreMatrix(n,m,scoreMat, targetString, sourceString):
 
     for i in range(1,n):
         for j in range(1,m):
-            scoreMat[i][j], pointer = return_min(i, j,scoreMat, targetString, sourceString)
+            scoreMat[i][j], pointer = return_min(i, j,scoreMat, targetString, sourceString, matrix_obj)
             pointer_list.append(pointer)
             PMatrix[i][j] = pointer
     cost = (scoreMat[n-1][m-1])
 
-    for x in range(w):
-        for y in range(h):
-            print(PMatrix[x][y],end=" ")
-        print()
+    # for x in range(w):
+    #     for y in range(h):
+    #         print(PMatrix[x][y],end=" ")
+    #     print()
     return scoreMat, cost, PMatrix
 
-def return_min(i, j, matrix, targetString, sourceString):
+def return_min(i, j, matrix, targetString, sourceString, matrix_obj):
 
     targetLetter = ord(targetString[j-1])-96
     sourceLetter = ord(sourceString[i-1])-96
     left = matrix[i-1,j] + 1 # delete cost of source(i)
     up = matrix[i,j-1] + 1 # ins cost of target(j)
-    diag = matrix[i-1,j-1] + leviObj.getCost(sourceLetter,targetLetter)
+    diag = matrix[i-1,j-1] + matrix_obj.getCost(sourceLetter,targetLetter)
     new_row = []
     new_row_dict ={"<":left,"^":up,"\\":diag}
     min_val = 1000
@@ -205,3 +208,30 @@ def openCSVFile(file):
 
 if __name__ == '__main__':
     main()
+'''
+a) Compare and contrast the results obtained from using the different cost approaches. Is one “better” than the
+other? How? Why?
+
+ANSWER: The confusion matrix approach seem to output a lower cost as opposed to Levenshtein distance. The Levenshtein distance
+is a generic approca to the issue, the confusion matrix appears to be highly specific, with commonly substituted letters
+tabulated accoding to probability.
+
+b) While the algorithm you implemented yields the minimum edit distance between a pair of words, it is not clear
+how it fits into a larger context (e.g., where does it get the words from?). Provide a description of its plausible
+use in a natural language application context (how does one arrive at the candidate words, how is the correct
+spelling selected, etc.)
+
+ANSWER: The minimum edit distance algorithm's plausible use case would be correcting mispelled words that are close to
+a correct spelling. In this program we have "target" words and "source" words. Now the question arises as to how a word gets
+designated as a target word? We must presumed that these target words are the correct according to whoever promulgates such
+target words. So there must be a corpus of words deemed correct from which to compare mispelled words. General spell check has been present in systems for years. So if a system is attempting to identify a word 
+
+c) Explain how you might devise a new set of costs: what process would you go through? What data would you use
+or collect? How would you arrive at final values for the table?
+'''
+
+# From book:
+    # TARGET -> TOP , Y, n, i
+    # Source -> SIDE LEFT , X, m, j
+    # n/i is leng of source X string and m/j in leng of Target Y string
+    # source is the siderow X , target is the top Y row
