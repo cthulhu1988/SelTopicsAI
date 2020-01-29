@@ -110,8 +110,8 @@ def findSequences(PMatrix, targetString, sourceString):
             current_node = "<"
             i-=1
             changes+="i"
-            SRC_SEQ += "<"
-            TRG_SEQ += targetString[i-1]
+            SRC_SEQ += "*"
+            TRG_SEQ += targetString[i]
         elif PMatrix[j][i] == 0:
             break
 
