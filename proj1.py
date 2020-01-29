@@ -88,45 +88,48 @@ def findSequences(PMatrix, targetString, sourceString):
 
     # navigate traceback array, start at bottom right.
     while i >= 0 or j >= 0:
-        # RANDOMLY CHOOSE NEXT DIRECTION
+        ########## RANDOMLY CHOOSE NEXT DIRECTION ######################
         list_pointer = [x for x in PMatrix[j][i]]
         rand_item = list_pointer[random.randrange(0,len(list_pointer))]
-
-        if rand_item == "\\":
-            current_node = "\\"
-            i-=1
-            j-=1
+        # start buidling target string:
+        i -=1
+        if i >=0:
             TRG_SEQ += targetString[i]
-            SRC_SEQ += sourceString[j]
-            if sourceString[j] == targetString[i]:
-                changes += "k"
-            else:
-                changes += "s"
+            print("TRG_SEQ {}".format(TRG_SEQ))
+        ############ iterate through possible pointers ##############
+        if rand_item == "\\":
+            j-=1
+            if j >=0:
+                SRC_SEQ += sourceString[j]
+                if sourceString[j] == targetString[i]:
+                    changes += "k"
+                else:
+                    changes += "s"
 
         elif rand_item == "^":
             j-=1
+            if j < 0:
+                j = 0
             changes += "d"
-            #SRC_SEQ += "^"
 
         elif rand_item == "<":
-            current_node = "<"
-            i-=1
-            changes+="i"
+            changes += "i"
             SRC_SEQ += "*"
-            TRG_SEQ += targetString[i]
+
         elif rand_item == "0":
             break
-        else:
-            pass
 
     print("i {} and j {}".format(i,j))
-    while i > 0:
-        TRG_SEQ += (targetString[i-1])
-        SRC_SEQ += ("*")
+    i-= 1; j -=1
+    while i >= 0:
+        SRC_SEQ += "*"
+        TRG_SEQ += (targetString[i])
+        changes += "d"
         i -= 1
-    while j > 0:
+    while j >= 0:
         SRC_SEQ += (sourceString[j])
         TRG_SEQ += ("*")
+        changes += "d"
         j -= 1
     return TRG_SEQ,SRC_SEQ, changes
 
