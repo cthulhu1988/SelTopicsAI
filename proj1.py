@@ -224,10 +224,14 @@ spelling selected, etc.)
 ANSWER: The minimum edit distance algorithm's plausible use case would be correcting mispelled words that are close to
 a correct spelling. In this program we have "target" words and "source" words. Now the question arises as to how a word gets
 designated as a target word? We must presumed that these target words are the correct according to whoever promulgates such
-target words. So there must be a corpus of words deemed correct from which to compare mispelled words. General spell check has been present in systems for years. So if a system is attempting to identify a word 
+target words. So there must be a corpus of words deemed correct from which to compare mispelled words. General spell check has been present in systems for years. So if a system is attempting to identify a word, and the minimum edit distance is low with regard to another word, the system can guess that the target word with low edit distance was intended. This could be augmented with a N-Gram approach.
 
 c) Explain how you might devise a new set of costs: what process would you go through? What data would you use
 or collect? How would you arrive at final values for the table?
+
+ANSWER: Of course the Levenshtein costs are generic, the confusion matrix costs are very specific. However, we don't know under
+what circumstances these costs were developed. Are these mistakes with regard to a letter or character made because people are natrually bad spellers? Were these costs developed with errors stemming from certain types of keyboards? What about Mobile keyboards? I think if you were developing a new set of costs it would be a balance between errors made in general and erros made in highly specific circumstances. Not to mention considering the language or dialect utilized. With the advent of "Big Data" one could sort through the language corpus and collected data to gauge the error rate of certain activites. Google autocomplete seems to be a good example of that type of approach. However, would one even attempt to implement such a system in a chat application or a Twitter feed with the liberal abuse of the King's English so prevelent on such platforms? So in conclusion, the language, dialect, platform, and interface are all considerations when constructing a new cost matrix.     
+
 '''
 
 # From book:
