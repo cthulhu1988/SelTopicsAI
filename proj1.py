@@ -15,7 +15,8 @@ def main():
     # object with 2d array wherein matices and word lists reside.
     global leviObj
     global confObj
-    leviObj = matrixObj(openCSVFile(leviDistance)); confObj = matrixObj(openCSVFile(confDistance))
+    leviObj = matrixObj(openCSVFile(leviDistance))
+    confObj = matrixObj(openCSVFile(confDistance))
     wordObjList = (openTXTFile(wordList))
 
     for y, wObj in enumerate(wordObjList):
@@ -28,23 +29,28 @@ def main():
             targetString = wObj.targetWord
             sourceString = wObj.sourceList[x]
 
-
+    # Fill matrix using Levenshtein scheme:
             scrMatrix, cost, PMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString, leviObj)
             final_seq1, final_seq2, changes = findSequences(PMatrix, targetString, sourceString)
-            changes = changes[::-1]
-            final_seq1 = final_seq1[::-1]
-            final_seq2 = final_seq2[::-1]
+            final_seq1, final_seq2, changes = reverseFinalStrings(final_seq1, final_seq2, final_seq2)
             printFinalOutput(final_seq1, final_seq2, cost,changes)
 
+    # Fill matrix using confusion scheme:
             scrMatrix, cost, PMatrix = fillScoreMatrix(n,m,scrMatInit, targetString, sourceString, confObj)
             final_seq1, final_seq2, changes = findSequences(PMatrix, targetString, sourceString)
-            changes = changes[::-1]
-            final_seq1 = final_seq1[::-1]
-            final_seq2 = final_seq2[::-1]
+            final_seq1, final_seq2, changes = reverseFinalStrings(final_seq1, final_seq2, final_seq2)
             printFinalOutput(final_seq1, final_seq2, cost,changes)
 
             print("-"*50)
 
+# reverseFinalStrings just reverses the strings that were build duing the alighnment phase
+def reverseFinalStrings(final_seq1, final_seq2, changes):
+    changes = changes[::-1]
+    final_seq1 = final_seq1[::-1]
+    final_seq2 = final_seq2[::-1]
+    return final_seq1, final_seq2, changes
+
+# printFinalOutput outputs the final data to the screen
 def printFinalOutput(final_seq1, final_seq2, cost, changes):
     sepLeng = len(final_seq1)
     print(final_seq2)
@@ -230,7 +236,7 @@ c) Explain how you might devise a new set of costs: what process would you go th
 or collect? How would you arrive at final values for the table?
 
 ANSWER: Of course the Levenshtein costs are generic, the confusion matrix costs are very specific. However, we don't know under
-what circumstances these costs were developed. Are these mistakes with regard to a letter or character made because people are natrually bad spellers? Were these costs developed with errors stemming from certain types of keyboards? What about Mobile keyboards? I think if you were developing a new set of costs it would be a balance between errors made in general and erros made in highly specific circumstances. Not to mention considering the language or dialect utilized. With the advent of "Big Data" one could sort through the language corpus and collected data to gauge the error rate of certain activites. Google autocomplete seems to be a good example of that type of approach. However, would one even attempt to implement such a system in a chat application or a Twitter feed with the liberal abuse of the King's English so prevelent on such platforms? So in conclusion, the language, dialect, platform, and interface are all considerations when constructing a new cost matrix.     
+what circumstances these costs were developed. Are these mistakes with regard to a letter or character made because people are natrually bad spellers? Were these costs developed with errors stemming from certain types of keyboards? What about Mobile keyboards? I think if you were developing a new set of costs it would be a balance between errors made in general and erros made in highly specific circumstances. Not to mention considering the language or dialect utilized. With the advent of "Big Data" one could sort through the language corpus and collected data to gauge the error rate of certain activites. Google autocomplete seems to be a good example of that type of approach. However, would one even attempt to implement such a system in a chat application or a Twitter feed with the liberal abuse of the King's English so prevelent on such platforms? So in conclusion, the language, dialect, platform, and interface are all considerations when constructing a new cost matrix.
 
 '''
 
