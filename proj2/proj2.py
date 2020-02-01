@@ -7,6 +7,7 @@
 import csv
 import random
 import numpy as np
+import re
 
 def main():
     testData = "test.txt"
@@ -22,10 +23,13 @@ def main():
 def openTXTFile(file):
     with open(file, encoding="ISO-8859-1") as fp:
         line = fp.readline()
-        print(line)
+        line.strip("'")
         while line:
             line = fp.readline()
-            print(line)
+            line_list = line.split()
+            pattern = "[A-Za-z0-9]"
+            words = [word for word in line_list if re.search(pattern,word)]
+            print(words)
 
 if __name__ == '__main__':
     main()
