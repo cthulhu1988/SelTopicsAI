@@ -20,12 +20,28 @@ def main():
 class Bigrams():
     def __init__(self, SentObj):
         self.SentObjList = SentObj
+        self.bigramList = []
+        self.trigramList = []
         for item in self.SentObjList:
-            print(item.returnSentence())
+            self.bigramList.append(self.splitIntoBigram(item.returnSentence()))
+            self.trigramList.append(self.splitIntoTrigram(item.returnSentence()))
 
+    def splitIntoBigram(self, test_list):
+        leng = len(test_list)
+        tupl = []
+        for x in range(1,leng):
+            tup = (test_list[x-1], test_list[x])
+            tupl.append(tup)
+        return tupl
 
-    def splitIntoBigram(self):
-        res = [(x, i.split()[j + 1]) for i in test_list for j, x in enumerate(i.split()) if j < len(i.split()) - 1]
+    def splitIntoTrigram(self, test_list):
+        leng = len(test_list)
+        tupl = []
+        for x in range(2,leng):
+            tup = (test_list[x-2], test_list[x-1], test_list[x])
+            tupl.append(tup)
+        return tupl
+
 
 class Sentence():
     def __init__(self, line):
