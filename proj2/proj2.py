@@ -16,32 +16,41 @@ def main():
     listOfTestingSentenceObjs = openTXTFile(testData, True)
 
     # This is the total count of unique words in the training corpus.
+    global getTotalWordCount
     getTotalWordCount = CountWords(listOfTrainSentenceObjs)
 
     #### Get a total of some specific word ####
     #print(getTotalCount.WordCount("."))
+    # create ngrams for the testing data set.
     trainNgramCount = Ngrams(listOfTrainSentenceObjs)
+
+    # passing in testing sentences and NGRAMS created during training.
+    runThroughData(listOfTestingSentenceObjs, trainNgramCount)
+
 
     outputDataToConsole(getTotalWordCount, trainNgramCount)
 
-    ########## Playing with a single sentence ###############
-    #single = listOfTestingSentenceObjs[1]
-
-    runThroughData(listOfTestingSentenceObjs, trainNgramCount)
-
-    
 ########################### CLASSES ###########################
 def runThroughData(TestObjs, trainNgramCount):
     for single in TestObjs:
+        print("##################################START##################################")
+        print("Line from Testing set: ",single.line)
         tupl = (single.w_1, single.targetWord)
         trigramtupl = (single.w_2, single.w_1, single.targetWord)
+        counter = 0
         for key, value in trainNgramCount.bigramDict.items():
-            if key == tupl:
-                print("Key: {}   Num times: {}".format(key, value))
+            if single.targetWord == key[0]:
+                print(key)
 
-        for key, value in trainNgramCount.trigramDict.items():
-            if key == trigramtupl:
-                print("Key: {}   Num times: {}".format(key, value))
+            if key == tupl:
+                print("Key tuple in train set: {}   Num times it appears: {}".format(key, value))
+                print("Percentage: {}".format(value/getTotalWordCount.WordCount(single.targetWord)))
+
+        # for key, value in trainNgramCount.trigramDict.items():
+        #     if key == trigramtupl:
+        #         print("Key: {}   Num times: {}".format(key, value))
+        print(counter)
+        print("##################################END##################################")
 
 def outputDataToConsole(getTotalWordCount, trainNgramCount):
     print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
