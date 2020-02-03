@@ -11,31 +11,44 @@ def main():
     trainData = "train.txt"
     testData = "test.txt"
     # this opens the training and testing files and saves the sentence objects
-    # in a list of sentence objects for further use.
+    # in a list of sentence objects for further use. There is also a boolean in canse it is testing data
     listOfTrainSentenceObjs = openTXTFile(trainData, False)
     listOfTestingSentenceObjs = openTXTFile(testData, True)
 
     # This is the total count of unique words in the training corpus.
-    getTotalCount = CountWords(listOfTrainSentenceObjs)
-    total = getTotalCount.count
-    # print("total uniq {}".format(total))
+    getTotalWordCount = CountWords(listOfTrainSentenceObjs)
 
+    #### Get a total of some specific word ####
     #print(getTotalCount.WordCount("."))
     trainNgramCount = Ngrams(listOfTrainSentenceObjs)
-    # print(trainNgramCount.trigramNum)
 
+    outputDataToConsole(getTotalWordCount, trainNgramCount)
 
-    single = listOfTestingSentenceObjs[1]
-    print(single.targetWord)
-    print(single.w_1)
-    print(single.w_2)
-    tupl = (single.w_1, single.targetWord)
+    ########## Playing with a single sentence ###############
+    #single = listOfTestingSentenceObjs[1]
 
-    for key, value in trainNgramCount.bigramDict.items():
-        if key == tupl:
-            print("Key: {}   Num times: {}".format(key, value))
+    runThroughData(listOfTestingSentenceObjs, trainNgramCount)
 
+    
 ########################### CLASSES ###########################
+def runThroughData(TestObjs, trainNgramCount):
+    for single in TestObjs:
+        tupl = (single.w_1, single.targetWord)
+        trigramtupl = (single.w_2, single.w_1, single.targetWord)
+        for key, value in trainNgramCount.bigramDict.items():
+            if key == tupl:
+                print("Key: {}   Num times: {}".format(key, value))
+
+        for key, value in trainNgramCount.trigramDict.items():
+            if key == trigramtupl:
+                print("Key: {}   Num times: {}".format(key, value))
+
+def outputDataToConsole(getTotalWordCount, trainNgramCount):
+    print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
+    print("Unique bigrams extracted: {}".format(trainNgramCount.bigramNum))
+    print("Unique trigrams extracted: {}".format(trainNgramCount.trigramNum))
+
+
 
 class CountWords():
     def __init__(self, SentObj):
@@ -55,18 +68,19 @@ class CountWords():
                 self.wordDict[i] = self.wordDict.get(i,0) + 1
         self.count = len(self.wordDict)
 
-
+## Class for dealing with the trigrams. Takes in a sentence object and performs operations on it.
 class Ngrams():
     def __init__(self, SentObj):
         self.SentObjList = SentObj
         self.bigramDict = {} ; self.trigramDict = {}
-        self.bigramList = []
-        self.trigramList = []
+        self.bigramList = [] ; self.trigramList = []
+        # split the list into bigrams and trigrams
         for item in self.SentObjList:
             self.bigramList.append(self.splitIntoBigram(item.returnSentence()))
             self.trigramList.append(self.splitIntoTrigram(item.returnSentence()))
         self.dictionaryCount(self.bigramList, self.bigramDict)
         self.dictionaryCount(self.trigramList, self.trigramDict)
+        # number of bigrams and trigrams in each dictionary.
         self.bigramNum = len(self.bigramDict)
         self.trigramNum = len(self.trigramDict)
 
@@ -74,7 +88,7 @@ class Ngrams():
         for item in list:
             for i in item:
                 dict[i] = dict.get(i,0) + 1
-
+    # super complicated functions for creating bigrams and trigrams
     def splitIntoBigram(self, test_list):
         leng = len(test_list)
         tupl = []
@@ -91,7 +105,8 @@ class Ngrams():
             tupl.append(tup)
         return tupl
 
-
+# this class returns different data based on whether or not the bool is set. If testing
+# then we need to strip off the last integer to know what word to focus on .
 class Sentence():
     def __init__(self, line, testing=False):
         self.targetWord = ""
@@ -111,7 +126,8 @@ class Sentence():
 
         self.sentence.insert(0,self.start)
         self.sentence.append(self.end)
-
+    # generaic print stats function I put in a lot of my classes to make sure the program
+    # is manipulating data correctly.
     def printStats(self):
         print(self.targetWord)
         print(self.num)
@@ -121,9 +137,9 @@ class Sentence():
         return self.sentence
 
 
-
-
 ########################### FUNCTIONS ###########################
+
+
 def openTXTFile(file, bool):
     SentObj = []
     with open(file, encoding="ISO-8859-1") as fp:
@@ -132,17 +148,11 @@ def openTXTFile(file, bool):
         if len(words) > 0:
             new_obj = Sentence(words, bool)
             SentObj.append(new_obj)
-        # line = fp.readline()
-        # line_list = line.split()
         # pattern = "[0-9a-zA-Z]"
         # words = [word for word in line_list if re.search(pattern,word)]
-        # new_obj = Sentence(words)
-        # SentObj.append(new_obj)
         while line:
             line = fp.readline()
             words = line.split()
-            #pattern = "[0-9a-zA-Z]"
-            #words = [word for word in line_list]
             if len(words) > 0:
                 new_obj = Sentence(words, bool)
                 SentObj.append(new_obj)
