@@ -5,6 +5,10 @@
 #Due: 2/6/20
 # Please see answers to questions at the bottom of this code.
 import re
+import operator
+from timeit import default_timer as timer
+import time
+from datetime import timedelta
 
 def main():
     # Hardcoded file handles
@@ -32,25 +36,44 @@ def main():
 
 ########################### CLASSES ###########################
 def runThroughData(TestObjs, trainNgramCount):
+    biCounter = [0,0,0,0]
     for single in TestObjs:
-        print("##################################START##################################")
-        print("Line from Testing set: ",single.line)
+        #print("##################################START##################################")
+        #print("Line from Testing set: ",single.line)
         tupl = (single.w_1, single.targetWord)
         trigramtupl = (single.w_2, single.w_1, single.targetWord)
-        counter = 0
+        #print("target word in Testing sentence: {}".format(single.targetWord))
+        sorted_dict = {}
+        Sstart = timer()
         for key, value in trainNgramCount.bigramDict.items():
-            if single.targetWord == key[0]:
-                print(key)
+            if single.w_1 == key[0]:
+                percentage = value/getTotalWordCount.WordCount(single.targetWord)
+                new_tuple = (key[0],key[1])
+                sorted_dict[new_tuple] = percentage
+        final_list = []
+        list1 = sorted(sorted_dict.items(), key=operator.itemgetter(1))
+        start = len(list1)-1
+        end = len(list1)-11 if start >=10 else start
+        for x in range(start, end, -1):
+            final_list.append(list1[x])
+        for y in range(0, len(final_list)):
+            tup,perc =(final_list[y])
+            tupPrev,tupTarget = tup
+            #print("perc {} --- tupPrev {} ---  tupTarget {}".format(perc,tupPrev,tupTarget))
+            if tupTarget == single.targetWord:
+                if y == 0:
+                    biCounter[0]+=1
+                elif y <= 3:
+                    biCounter[1]+=1
+                elif x < 5:
+                    biCounter[2]+=1
+                elif x <= 10:
+                    biCounter[3]+=1
+        print(biCounter)
+        Send = timer()
+        print(timedelta(seconds=Send-Sstart))
 
-            if key == tupl:
-                print("Key tuple in train set: {}   Num times it appears: {}".format(key, value))
-                print("Percentage: {}".format(value/getTotalWordCount.WordCount(single.targetWord)))
-
-        # for key, value in trainNgramCount.trigramDict.items():
-        #     if key == trigramtupl:
-        #         print("Key: {}   Num times: {}".format(key, value))
-        print(counter)
-        print("##################################END##################################")
+        #print("##################################END##################################")
 
 def outputDataToConsole(getTotalWordCount, trainNgramCount):
     print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
