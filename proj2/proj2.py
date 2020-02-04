@@ -36,15 +36,15 @@ def main():
 
 ########################### CLASSES ###########################
 def runThroughData(TestObjs, trainNgramCount):
-    biCounter = [0,0,0,0]
+    biCounter = [0,0,0,0,0]
     for single in TestObjs:
+        biCounter[4]+=1
         #print("##################################START##################################")
         #print("Line from Testing set: ",single.line)
         tupl = (single.w_1, single.targetWord)
         trigramtupl = (single.w_2, single.w_1, single.targetWord)
         #print("target word in Testing sentence: {}".format(single.targetWord))
         sorted_dict = {}
-        Sstart = timer()
         newDict = { key:value for (key,value) in trainNgramCount.bigramDict.items() if key[0] == single.w_1}
         test_list = []
         for key, value in newDict.items():
@@ -56,37 +56,20 @@ def runThroughData(TestObjs, trainNgramCount):
             test_list.append(test_tuple)
         test_list.sort(key=operator.itemgetter(2), reverse=True)
         test_list = test_list[0:10] if len(test_list) >=10 else test_list[0:len(test_list)]
-        print(test_list)
-        #final_list = []
-        #list1 = sorted(sorted_dict.items(), key=operator.itemgetter(1))
-
-        # start = len(list1)-1
-        # end = len(list1)-11 if start >=10 else start
-        # for x in range(start, end, -1):
-        #     final_list.append(list1[x])
-        # for y in range(0, len(final_list)):
-        #     tup,perc =(final_list[y])
-        #     tupPrev,tupTarget = tup
-        #     print("perc {} --- tupPrev {} ---  tupTarget {}".format(perc,tupPrev,tupTarget))
-        #     if tupTarget == single.targetWord:
-        #         if y == 0:
-        #             biCounter[0]+=1
-        #         elif y <= 3:
-        #             biCounter[1]+=1
-        #         elif x < 5:
-        #             biCounter[2]+=1
-        #         elif x <= 10:
-        #             biCounter[3]+=1
+        for idx, item in enumerate(test_list):
+            tupleTarget, guess, percentage = item
+            #print("{}  {} {}   {}".format(idx,tupleTarget, guess, percentage))
+            if guess == single.targetWord:
+                if idx == 0:
+                    biCounter[0]+=1
+                elif idx <= 3:
+                    biCounter[1]+=1
+                elif idx < 5:
+                    biCounter[2]+=1
+                elif idx <= 10:
+                    biCounter[3]+=1
         print(biCounter)
-        Send = timer()
-        print(timedelta(seconds=Send-Sstart))
 
-        print("##################################END##################################")
-
-def outputDataToConsole(getTotalWordCount, trainNgramCount):
-    print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
-    print("Unique bigrams extracted: {}".format(trainNgramCount.bigramNum))
-    print("Unique trigrams extracted: {}".format(trainNgramCount.trigramNum))
 
 
 
@@ -178,6 +161,10 @@ class Sentence():
 
 
 ########################### FUNCTIONS ###########################
+def outputDataToConsole(getTotalWordCount, trainNgramCount):
+    print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
+    print("Unique bigrams extracted: {}".format(trainNgramCount.bigramNum))
+    print("Unique trigrams extracted: {}".format(trainNgramCount.trigramNum))
 
 
 def openTXTFile(file, bool):
