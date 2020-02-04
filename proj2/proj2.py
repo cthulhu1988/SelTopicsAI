@@ -41,18 +41,12 @@ def runThroughData(TestObjs, trainNgramCount):
     for single in TestObjs:
         # iterate through each sentence,
         biCounter[4]+=1
-        #print("Line from Testing set: ",single.line)
-        #tupl = (single.w_1, single.targetWord)
-        #trigramtupl = (single.w_2, single.w_1, single.targetWord)
-        #print("target word in Testing sentence: {}".format(single.targetWord))
-        #sorted_dict = {}
         newDict = { key:value for (key,value) in trainNgramCount.bigramDict.items() if key[0] == single.w_1}
         test_list = []
 
         for key, value in newDict.items():
             percentage = value/getTotalWordCount.WordCount(single.targetWord)
             new_tuple = (key[0],key[1])
-            #sorted_dict[new_tuple] = percentage
             test_tuple = (key[0],key[1], percentage)
             test_list.append(test_tuple)
         test_list.sort(key=operator.itemgetter(2), reverse=True)
@@ -60,7 +54,6 @@ def runThroughData(TestObjs, trainNgramCount):
 
         for idx, item in enumerate(test_list):
             tupleTarget, guess, percentage = item
-            #print("{}  {} {}   {}".format(idx,tupleTarget, guess, percentage))
             if guess == single.targetWord:
                 if idx == 0:
                     biCounter[0]+=1
