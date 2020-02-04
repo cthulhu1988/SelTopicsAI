@@ -37,25 +37,27 @@ def main():
 ########################### CLASSES ###########################
 def runThroughData(TestObjs, trainNgramCount):
     biCounter = [0,0,0,0,0]
+    triCounter = [0,0,0,0,0]
     for single in TestObjs:
+        # iterate through each sentence,
         biCounter[4]+=1
-        #print("##################################START##################################")
         #print("Line from Testing set: ",single.line)
-        tupl = (single.w_1, single.targetWord)
-        trigramtupl = (single.w_2, single.w_1, single.targetWord)
+        #tupl = (single.w_1, single.targetWord)
+        #trigramtupl = (single.w_2, single.w_1, single.targetWord)
         #print("target word in Testing sentence: {}".format(single.targetWord))
-        sorted_dict = {}
+        #sorted_dict = {}
         newDict = { key:value for (key,value) in trainNgramCount.bigramDict.items() if key[0] == single.w_1}
         test_list = []
+
         for key, value in newDict.items():
             percentage = value/getTotalWordCount.WordCount(single.targetWord)
             new_tuple = (key[0],key[1])
-            sorted_dict[new_tuple] = percentage
+            #sorted_dict[new_tuple] = percentage
             test_tuple = (key[0],key[1], percentage)
-
             test_list.append(test_tuple)
         test_list.sort(key=operator.itemgetter(2), reverse=True)
         test_list = test_list[0:10] if len(test_list) >=10 else test_list[0:len(test_list)]
+
         for idx, item in enumerate(test_list):
             tupleTarget, guess, percentage = item
             #print("{}  {} {}   {}".format(idx,tupleTarget, guess, percentage))
@@ -64,14 +66,11 @@ def runThroughData(TestObjs, trainNgramCount):
                     biCounter[0]+=1
                 elif idx <= 3:
                     biCounter[1]+=1
-                elif idx < 5:
+                elif idx <= 5:
                     biCounter[2]+=1
                 elif idx <= 10:
                     biCounter[3]+=1
         print(biCounter)
-
-
-
 
 class CountWords():
     def __init__(self, SentObj):
