@@ -6,9 +6,6 @@
 # Please see answers to questions at the bottom of this code.
 import re
 import operator
-from timeit import default_timer as timer
-import time
-from datetime import timedelta
 def main():
     # Hardcoded file handles
     trainData = "train.txt"
@@ -30,85 +27,14 @@ def main():
     trainNgramCount = Ngrams(listOfTrainSentenceObjs)
 
     # passing in testing sentences and NGRAMS created during training.
-    start_time = time.clock()
     triCounter = trigramCalc(testData, trainNgramCount, triCounter)
-    print(time.clock() - start_time, "seconds")
 
     outputDataToConsole(getTotalWordCount, trainNgramCount, triCounter)
 
+
+
+
 ########################### CLASSES ###########################
-
-def trigramCalc(data, trainNgramCount, triCounter):
-    start = "<s>"; end = "</s>"
-    triCounter = [0,0,0,0,0]
-    with open(data, encoding="ISO-8859-1") as fp:
-        line = fp.readline()
-        while line:
-            triCounter[4]+=1
-            words = line.split()
-            if len(words) > 0:
-                # perform operations on the strings:
-                num = int(words[-1])
-                sentence = words[:-1]
-                targetWord = sentence[num]
-                w_1 = sentence[num-1] if num >=1 else ""
-                w_2 = sentence[num-2] if num >=2 else ""
-                sentence.insert(0,start)
-                sentence.append(end)
-
-                # create dictionaries and lists:
-                # Turn dictionary into list, sort by highest, cut of list at 10, set a bool to avoid double counting:
-                found_match = False
-                trigramDict = {k:v for (k,v) in trainNgramCount.trigramDict.items() if (k[0] == w_2 and k[1] == w_1)  }
-                trigram_list = []
-                for key, value in trigramDict.items():
-                    trigram_list.append((key[0],key[1],key[2], value))
-                    trigram_list.sort(key=operator.itemgetter(3), reverse=True)
-
-                trigram_list = trigram_list[0:10] if len(trigram_list) >=10 else trigram_list[0:len(trigram_list)]
-                for id, y in enumerate(trigram_list):
-                    t,tupleTarget, guess, percentage = y
-                    if guess == targetWord:
-                        found_match = True
-                        if id == 0:
-                            triCounter[0]+=1
-                        if id <= 3:
-                            triCounter[1]+=1
-                        if id <= 5:
-                            triCounter[2]+=1
-                        if id <= 10:
-                            triCounter[3]+=1
-                        #print("IN TRI TRI TRRI COUNTER {}".format(triCounter))
-
-
-                # create dictionaries and lists:
-                # Turn dictionary into list, sort by highest, cut off list at 10, set a bool to avoid double counting:
-                # if we did not find a match in the previous trigram section we try bigrams. Best run time is 6 minutes on this.
-                if found_match == False:
-                    bigram_list = []
-                    bigramDict = {k:v for (k,v) in trainNgramCount.bigramDict.items() if (k[0] == w_1)  }
-                    for key, value in bigramDict.items():
-                        bigram_list.append((key[0],key[1], value))
-                        bigram_list.sort(key=operator.itemgetter(2), reverse=True)
-
-                    bigram_list = bigram_list[0:10] if len(bigram_list) >=10 else bigram_list[0:len(bigram_list)]
-                    for idx, i in enumerate(bigram_list):
-                        tupleTarget, guess, percentage = i
-                        if guess == targetWord:
-                            if idx == 0:
-                                triCounter[0]+=1
-                            if idx <= 3:
-                                triCounter[1]+=1
-                            if idx <= 5:
-                                triCounter[2]+=1
-                            if idx <= 10:
-                                triCounter[3]+=1
-                            #print("IN BI COUNTER {}".format(triCounter))
-                else:
-                    pass
-            # readline to start process over
-            line = fp.readline()
-    return triCounter
 
 # This class creates a word dictionary from all the setences pulled into the program.
 class CountWords():
@@ -116,7 +42,7 @@ class CountWords():
         self.SentObj = SentObj
         self.wordDict = {}
         self.gWCnt(self.SentObj)
-    # this method returns the totoal
+    # this method returns the total number of each word in the dictionary.
     def WordCount(self,word):
         for k,v in self.wordDict.items():
             if k == word:
@@ -150,7 +76,7 @@ class Ngrams():
         for item in list:
             for i in item:
                 dict[i] = dict.get(i,0) + 1
-    # super complicated functions for creating bigrams and trigrams
+    # super complicated methods for creating bigrams and trigrams
     def splitIntoBigram(self, test_list):
         leng = len(test_list)
         tupl = []
@@ -204,6 +130,76 @@ class Sentence():
         return triSetence
 
 ########################### FUNCTIONS ###########################
+def trigramCalc(data, trainNgramCount, triCounter):
+    start = "<s>"; end = "</s>"
+    triCounter = [0,0,0,0,0]
+    with open(data, encoding="ISO-8859-1") as fp:
+        line = fp.readline()
+        while line:
+            triCounter[4]+=1
+            words = line.split()
+            if len(words) > 0:
+                # perform operations on the strings:
+                num = int(words[-1])
+                sentence = words[:-1]
+                targetWord = sentence[num]
+                w_1 = sentence[num-1] if num >=1 else ""
+                w_2 = sentence[num-2] if num >=2 else ""
+                sentence.insert(0,start)
+                sentence.append(end)
+
+                # create dictionaries and lists:
+                # Turn dictionary into list, sort by highest, cut of list at 10, set a bool to avoid double counting:
+                found_match = False
+                trigramDict = {k:v for (k,v) in trainNgramCount.trigramDict.items() if (k[0] == w_2 and k[1] == w_1)  }
+                trigram_list = []
+                for key, value in trigramDict.items():
+                    trigram_list.append((key[0],key[1],key[2], value))
+                    trigram_list.sort(key=operator.itemgetter(3), reverse=True)
+
+                trigram_list = trigram_list[0:10] if len(trigram_list) >=10 else trigram_list[0:len(trigram_list)]
+                for id, y in enumerate(trigram_list):
+                    t,tupleTarget, guess, percentage = y
+                    if guess == targetWord:
+                        found_match = True
+                        if id == 0:
+                            triCounter[0]+=1
+                        if id <= 3:
+                            triCounter[1]+=1
+                        if id <= 5:
+                            triCounter[2]+=1
+                        if id <= 10:
+                            triCounter[3]+=1
+
+
+                # create dictionaries and lists:
+                # Turn dictionary into list, sort by highest, cut off list at 10, set a bool to avoid double counting:
+                # if we did not find a match in the previous trigram section we try bigrams. Best run time is 6 minutes on this.
+                if found_match == False:
+                    bigram_list = []
+                    bigramDict = {k:v for (k,v) in trainNgramCount.bigramDict.items() if (k[0] == w_1)  }
+                    for key, value in bigramDict.items():
+                        bigram_list.append((key[0],key[1], value))
+                        bigram_list.sort(key=operator.itemgetter(2), reverse=True)
+
+                    bigram_list = bigram_list[0:10] if len(bigram_list) >=10 else bigram_list[0:len(bigram_list)]
+                    for idx, i in enumerate(bigram_list):
+                        tupleTarget, guess, percentage = i
+                        if guess == targetWord:
+                            if idx == 0:
+                                triCounter[0]+=1
+                            if idx <= 3:
+                                triCounter[1]+=1
+                            if idx <= 5:
+                                triCounter[2]+=1
+                            if idx <= 10:
+                                triCounter[3]+=1
+                else:
+                    pass
+            # readline to start process over
+            line = fp.readline()
+    return triCounter
+
 def outputDataToConsole(getTotalWordCount, trainNgramCount, triCounter):
     print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
     print("Unique bigrams extracted: {}".format(trainNgramCount.bigramNum))
