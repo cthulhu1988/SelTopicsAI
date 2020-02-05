@@ -40,31 +40,54 @@ def runThroughData(TestObjs, trainNgramCount):
     triCounter = [0,0,0,0,0]
     for single in TestObjs:
         # iterate through each sentence,
-        biCounter[4]+=1
-        newDict = { key:value for (key,value) in trainNgramCount.bigramDict.items() if key[0] == single.w_1}
-        test_list = []
+        biCounter[4]+=1;
 
-        for key, value in newDict.items():
+        bigramDict = { key:value for (key,value) in trainNgramCount.bigramDict.items() if key[0] == single.w_1}
+        bigram_list = []
+
+        trigramDict = { key:value for (key,value) in trainNgramCount.trigramDict.items() \
+        if (key[0] == single.w_1 and key[1] == single.w_2)}
+        trigram_list = []
+
+        for key, value in bigramDict.items():
             percentage = value/getTotalWordCount.WordCount(single.targetWord)
             new_tuple = (key[0],key[1])
             test_tuple = (key[0],key[1], percentage)
-            test_list.append(test_tuple)
-        test_list.sort(key=operator.itemgetter(2), reverse=True)
-        test_list = test_list[0:10] if len(test_list) >=10 else test_list[0:len(test_list)]
+            bigram_list.append(test_tuple)
+        bigram_list.sort(key=operator.itemgetter(2), reverse=True)
+        bigram_list = bigram_list[0:10] if len(bigram_list) >=10 else bigram_list[0:len(bigram_list)]
 
-        for idx, item in enumerate(test_list):
+        for idx, item in enumerate(bigram_list):
             tupleTarget, guess, percentage = item
             if guess == single.targetWord:
                 if idx == 0:
                     biCounter[0]+=1
-                elif idx <= 3:
+                if idx <= 3:
                     biCounter[1]+=1
-                elif idx <= 5:
+                if idx <= 5:
                     biCounter[2]+=1
-                elif idx <= 10:
+                if idx <= 10:
+                    biCounter[3]+=1
+
+        for key, value in trigramDict.items():
+            percentage = value/getTotalWordCount.WordCount(single.targetWord)
+            test_tuple = (key[0],key[1], key[2], percentage)
+            trigram_list.append(test_tuple)
+        trigram_list.sort(key=operator.itemgetter(3), reverse=True)
+        trigram_list = trigram_list[0:10] if len(trigram_list) >=10 else trigram_list[0:len(trigram_list)]
+
+        for idx, item in enumerate(trigram_list):
+            tupleTarget1, tupleTarget2, guess, percentage = item
+            if guess == single.targetWord:
+                if idx == 0:
+                    biCounter[0]+=1
+                if idx <= 3:
+                    biCounter[1]+=1
+                if idx <= 5:
+                    biCounter[2]+=1
+                if idx <= 10:
                     biCounter[3]+=1
         print(biCounter)
-
 class CountWords():
     def __init__(self, SentObj):
         self.SentObj = SentObj
