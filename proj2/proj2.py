@@ -39,6 +39,7 @@ def runThroughData(TestObjs, trainNgramCount):
     biCounter = [0,0,0,0,0]
     triCounter = [0,0,0,0,0]
     for single in TestObjs:
+        print(single.line)
         # iterate through each sentence,
         biCounter[4]+=1;
 
@@ -55,8 +56,10 @@ def runThroughData(TestObjs, trainNgramCount):
             test_tuple = (key[0],key[1], percentage)
             bigram_list.append(test_tuple)
         bigram_list.sort(key=operator.itemgetter(2), reverse=True)
-        bigram_list = bigram_list[0:10] if len(bigram_list) >=10 else bigram_list[0:len(bigram_list)]
 
+        bigram_list = bigram_list[0:10] if len(bigram_list) >=10 else bigram_list[0:len(bigram_list)]
+        for item in bigram_list:
+            print(item)
         for idx, item in enumerate(bigram_list):
             tupleTarget, guess, percentage = item
             if guess == single.targetWord:
@@ -78,16 +81,21 @@ def runThroughData(TestObjs, trainNgramCount):
 
         for idx, item in enumerate(trigram_list):
             tupleTarget1, tupleTarget2, guess, percentage = item
+            #print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            #print("{} {} {}             {}".format(tupleTarget1, tupleTarget2, guess, percentage))
             if guess == single.targetWord:
                 if idx == 0:
-                    biCounter[0]+=1
+                    triCounter[0]+=1
                 if idx <= 3:
-                    biCounter[1]+=1
+                    triCounter[1]+=1
                 if idx <= 5:
-                    biCounter[2]+=1
+                    triCounter[2]+=1
                 if idx <= 10:
-                    biCounter[3]+=1
-        print(biCounter)
+                    triCounter[3]+=1
+        print("bi", biCounter)
+        print("tri", triCounter)
+
+
 class CountWords():
     def __init__(self, SentObj):
         self.SentObj = SentObj
