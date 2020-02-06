@@ -149,7 +149,7 @@ def trigramCalc(data, trainNgramCount, triCounter):
                 w_2 = sentence[num-2] if num >=2 else ""
                 sentence.insert(0,start)
                 sentence.append(end)
-
+                print(sentence)
                 # create dictionaries and lists:
                 # Turn dictionary into list, sort by highest, cut of list at 10, set a bool to avoid double counting:
                 found_match = False
@@ -161,6 +161,10 @@ def trigramCalc(data, trainNgramCount, triCounter):
                     trigram_list.sort(key=operator.itemgetter(3), reverse=True)
                 # We only need a slice of the top 10
                 trigram_list = trigram_list[0:10] if len(trigram_list) >=10 else trigram_list[0:len(trigram_list)]
+                print("word 2 spots before target: {}  word previous to target: {}   targetWord: {}".format(w_2,w_1, targetWord))
+                for item in trigram_list:
+                    print(item)
+
                 for id, y in enumerate(trigram_list):
                     t,tupleTarget, guess, percentage = y
                     if guess == targetWord:
@@ -184,7 +188,6 @@ def trigramCalc(data, trainNgramCount, triCounter):
                     for key, value in bigramDict.items():
                         bigram_list.append((key[0],key[1], value))
                         bigram_list.sort(key=operator.itemgetter(2), reverse=True)
-
                     # We only need a slice of the top 10
                     bigram_list = bigram_list[0:10] if len(bigram_list) >=10 else bigram_list[0:len(bigram_list)]
                     for idx, i in enumerate(bigram_list):
