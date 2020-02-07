@@ -130,7 +130,7 @@ class Sentence():
 ########################### FUNCTIONS ###########################
 #################################################################
 def trigramCalc(data, trainNgramCount, triCounter):
-    start = "<s>"; end = "</s>"
+    start = "<s><s>"; end = "</s></s>"
     triCounter = [0,0,0,0,0]
     # this encoding allowed me to pull in the sentences without error.
     with open(data, encoding="ISO-8859-1") as fp:
@@ -149,7 +149,6 @@ def trigramCalc(data, trainNgramCount, triCounter):
                 w_2 = sentence[num-2] if num >=2 else ""
                 sentence.insert(0,start)
                 sentence.append(end)
-                print(sentence)
                 # create dictionaries and lists:
                 # Turn dictionary into list, sort by highest, cut of list at 10, set a bool to avoid double counting:
                 found_match = False
@@ -161,9 +160,6 @@ def trigramCalc(data, trainNgramCount, triCounter):
                     trigram_list.sort(key=operator.itemgetter(3), reverse=True)
                 # We only need a slice of the top 10
                 trigram_list = trigram_list[0:10] if len(trigram_list) >=10 else trigram_list[0:len(trigram_list)]
-                print("word 2 spots before target: {}  word previous to target: {}   targetWord: {}".format(w_2,w_1, targetWord))
-                for item in trigram_list:
-                    print(item)
 
                 for id, y in enumerate(trigram_list):
                     t,tupleTarget, guess, percentage = y
@@ -225,6 +221,7 @@ def outputSentence(a,b,c):
 def openTXTFile(file, bool):
     SentObj = []
     with open(file, encoding="ISO-8859-1") as fp:
+    #with open(file, encoding="utf-8") as fp:
         line = fp.readline()
         words = line.split()
         if len(words) > 0:
@@ -261,8 +258,9 @@ of the 17226 lines in the training data.
 3. What, in your opinion, is a better way to split the data into training and test components? Give reasons for
 your answer.
 
-ANSWER: From previous exposure to testing and training data, I think the proper process in this case would be to randomize the sentences, take a larger slice as training data, then take the small remaining slice as testing data. This randomization ensures there is no bias in the training
-data.
+ANSWER: From previous exposure to testing and training data, I think the proper process in this case would be to randomize the sentences,
+take a larger slice as training data, then take the small remaining slice as testing data. This randomization ensures there is no bias
+in the training data.
 
 
 """
