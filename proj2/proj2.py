@@ -29,8 +29,9 @@ def main():
     triCounter = trigramCalc(testData, trainNgramCount, triCounter)
     # output final data to the screen
     outputDataToConsole(getTotalWordCount, trainNgramCount, triCounter)
-
+###############################################################
 ########################### CLASSES ###########################
+###############################################################
 # This class creates a word dictionary from all the setences pulled into the program.
 class CountWords():
     def __init__(self, SentObj):
@@ -79,7 +80,7 @@ class Ngrams():
             tup = (test_list[x-1], test_list[x])
             tupl.append(tup)
         return tupl
-
+    # Splits the sentece into a trigram tuple and appends.
     def splitIntoTrigram(self, test_list):
         leng = len(test_list)
         tupl = []
@@ -88,7 +89,7 @@ class Ngrams():
             tupl.append(tup)
         return tupl
 
-# this class returns different data based on whether or not the bool is set. If testing
+# This class returns different data based on whether or not the bool is set. If testing
 # then we need to strip off the last integer to know what word to focus on .
 class Sentence():
     def __init__(self, line, testing=False):
@@ -109,7 +110,7 @@ class Sentence():
 
         self.sentence.insert(0,self.start)
         self.sentence.append(self.end)
-    # generic print stats function I put in a lot of my classes to make sure the program
+    # Generic print stats function I put in a lot of my classes to make sure the program
     # is manipulating data correctly.
     def printStats(self):
         print(self.targetWord)
@@ -119,7 +120,7 @@ class Sentence():
         # just returns a bigram sentence.
     def returnSentence(self):
         return self.sentence
-        # this returns a sentence for use with trigrams.
+        # this returns a sentence for use with trigrams Extra padding.
     def returnTriSentence(self):
         triSetence = self.sentence
         triSetence.insert(0,self.start)
@@ -129,7 +130,13 @@ class Sentence():
 #################################################################
 ########################### FUNCTIONS ###########################
 #################################################################
+# This function parses each incoming testing sentence, filters the bigram and trigram dictionaries based on the
+# target word and previous one or two words, performs matches, and increments a counter array. I am rather fond
+# of that counter array, saves space when counting multiple variables.
 def trigramCalc(data, trainNgramCount, triCounter):
+    # I spent a great deal of time trying to reduce the processing time in this section. Best run is 5 mins 41 secs on a I7-4790K
+    t_dict = trainNgramCount.trigramDict.items()
+    b_dict = trainNgramCount.bigramDict.items()
     start = "<s><s>"; end = "</s></s>"
     triCounter = [0,0,0,0,0]
     # this encoding allowed me to pull in the sentences without error.
@@ -143,16 +150,16 @@ def trigramCalc(data, trainNgramCount, triCounter):
                 num = int(words[-1])
                 #num = random.randrange(0,len(words)-1)
                 sentence = words[:-1]
-                #print(sentence)
                 targetWord = sentence[num]
-                w_1 = sentence[num-1] if num >=1 else ""
-                w_2 = sentence[num-2] if num >=2 else ""
+                # setting the words previous to the target word.
+                w_1 = sentence[num-1] if len(words) >=1 else ""
+                w_2 = sentence[num-2] if len(words) >=2 else ""
                 sentence.insert(0,start)
                 sentence.append(end)
                 # create dictionaries and lists:
                 # Turn dictionary into list, sort by highest, cut of list at 10, set a bool to avoid double counting:
                 found_match = False
-                trigramDict = {k:v for (k,v) in trainNgramCount.trigramDict.items() if (k[0] == w_2 and k[1] == w_1)  }
+                trigramDict = {k:v for (k,v) in t_dict if (k[0] == w_2 and k[1] == w_1)  }
                 trigram_list = []
                 # convert filtered dictionary into a list and sort.
                 for key, value in trigramDict.items():
@@ -174,13 +181,13 @@ def trigramCalc(data, trainNgramCount, triCounter):
                         if id <= 10:
                             triCounter[3]+=1
 
-                # The program ran faster if I checked trigrams first then bigrams if there was no match.
+                # if we did not find a match in the previous trigram section we try bigrams.
+                # The program ran faster if I checked trigrams first, then bigrams if there was no match.
                 # create dictionaries and lists:
-                # Turn dictionary into list, sort by highest, cut off list at 10, set a bool to avoid double counting:
-                # if we did not find a match in the previous trigram section we try bigrams. Best run time is 6 minutes on this.
+                # Turn dictionary into list, sort by highest, cut off list at 10, check with a bool to avoid double counting:
                 if found_match == False:
                     bigram_list = []
-                    bigramDict = {k:v for (k,v) in trainNgramCount.bigramDict.items() if (k[0] == w_1)  }
+                    bigramDict = {k:v for (k,v) in b_dict if (k[0] == w_1)  }
                     for key, value in bigramDict.items():
                         bigram_list.append((key[0],key[1], value))
                         bigram_list.sort(key=operator.itemgetter(2), reverse=True)
@@ -200,10 +207,9 @@ def trigramCalc(data, trainNgramCount, triCounter):
                 else:
                     pass
             # readline to start process over
-            #print(triCounter)
             line = fp.readline()
     return triCounter
-# purpose of this function is to output the final data to the console.
+# The purpose of this function is to output the final data to the console.
 def outputDataToConsole(getTotalWordCount, trainNgramCount, triCounter):
     print("Unique unigrams extracted: {}".format(getTotalWordCount.count))
     print("Unique bigrams extracted: {}".format(trainNgramCount.bigramNum))
@@ -213,7 +219,8 @@ def outputDataToConsole(getTotalWordCount, trainNgramCount, triCounter):
     outputSentence(5, triCounter[2], triCounter[4])
     outputSentence(10, triCounter[3], triCounter[4])
 
-# this function proves that there is no task so trivial that I won't wrap it into a function or class.
+# This function proves that there is no task so trivial that I won't wrap it into a function or class.
+# Behold my cleverly named variables.
 def outputSentence(a,b,c):
     print("# of times correct word found in top {} highest probability n-grams {} of {} predictions".format(a,b,c))
 
@@ -221,7 +228,6 @@ def outputSentence(a,b,c):
 def openTXTFile(file, bool):
     SentObj = []
     with open(file, encoding="ISO-8859-1") as fp:
-    #with open(file, encoding="utf-8") as fp:
         line = fp.readline()
         words = line.split()
         if len(words) > 0:
@@ -245,22 +251,23 @@ ANSWER: Well, in my testing the top 1 results were 667 out of 4332 predictions. 
 However, this is also a very simplistic way to approach the problem. Not that the implementation was easy, just that the criterion for selecting
 a word is error prone. Just because a word has a higher percentage of following another does not mean it is likely or will occur every time. This is
 not a problem that would be resolved with a larger corpus necessarily. It may show improvement if the testing and training corpora had similar stilted
-formulaic speech patters. Still, the results are not trivial in their significance. It works remarkably well for such a naive implementation.
+formulaic speech patters. Still, the results are not trivial in their significance. This n-gram selection process works remarkably well for such a
+naive implementation.
 
 2. The test sentences are extracted randomly from the news stories used in the training data. A sentence is in
 either the training data or the test data, but not both. Discuss the pros and cons of this approach.
 
 ANSWER: With regard to pros, it is a better real world test of how accurate the language model is for predicting answers from data that
-the model has not encountered before. On the downside, the accuracy will be lower. I was able to run the training data back through as if
-it were testing data by randomly selecting a target word to predict. The accuracy increased to 52% in top 1 and 81% in top 10 predictions out
-of the 17226 lines in the training data.
+the model has not encountered before. With regard to cons, the accuracy will be lower when dealing with data the model has not seen.
+I was able to run the training data back through as if it were testing data by randomly selecting a target word to predict. Obviously not something
+that we would normally do. However, the accuracy increased to 52% in top 1 and 81% in top 10 predictions out of the 17226 lines in the training data.
 
 3. What, in your opinion, is a better way to split the data into training and test components? Give reasons for
 your answer.
 
 ANSWER: From previous exposure to testing and training data, I think the proper process in this case would be to randomize the sentences,
 take a larger slice as training data, then take the small remaining slice as testing data. This randomization ensures there is no bias
-in the training data.
+in the training data. I believe it may also protect against underfitting and overfitting.
 
 
 """
