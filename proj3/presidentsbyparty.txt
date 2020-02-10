@@ -1,0 +1,39 @@
+Republican
+
+    Abraham Lincoln
+    Ulysses S. Grant
+    Rutherford B. Hayes
+    James Garfield
+    Chester Arthur
+    Benjamin Harrison
+    William McKinley
+    Theodore Roosevelt
+    William Howard Taft
+    Warren Harding
+    Calvin Coolidge
+    Herbert Hoover
+    Dwight Eisenhower
+    Richard Nixon
+    Gerald Ford
+    Ronald Reagan
+    George Bush
+    George W. Bush
+    Donald Trump
+
+Democrat
+
+    Andrew Jackson
+    Martin Van Buren
+    James K. Polk
+    Franklin Pierce
+    James Buchanan
+    Grover Cleveland
+    Woodrow Wilson
+    Franklin D. Roosevelt
+    Harry Truman
+    John F. Kennedy
+    Lyndon Johnson
+    Jimmy Carter
+    Bill Clinton
+    Barack Obama
+

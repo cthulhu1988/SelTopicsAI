@@ -1,0 +1,20 @@
+sequence alignment and dynamic programming.
+dynamic programming avoid recursion.
+
+memoization -> builds a cache of answers in the form of a python dict.
+in one of the examples it uses recursion but also a cache if available
+
+Tabular -> builds a cache or table, it is a form of memoization but being
+put into a table and only allowed to look behind. Might go with a 2d table.
+
+
+Traceback will have a possibility of 3 choices. If there are three choices you will
+choose diagonal, left, and finally up.
+
+intitialize -- matrix fill -- Traceback
+
+full top and left side with zeros
+first string along top
+left is second string.
+
+list of lists 
