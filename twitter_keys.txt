@@ -1,0 +1,15 @@
+Consumer keys: 
+
+API key:
+
+TTbRIgdtpJUcQUSVZe19IurDc
+API secret key:
+
+hf54y1TpkhpxkhLQBMmJvbTMfFMMUfGbgYZw5xbswIad3ZWzer
+
+
+Access token:
+372330040-UqVzc2sUKDFz8ZDUowAufuyAv5uaxmbvGnXTyhj3
+
+Access token Sectet
+6vArqK40I23JURV8Uevek7PNvBqCfY0nhlmVJ2hsQ1zEm
