@@ -12,21 +12,36 @@
 
 \section{Introduction}
 \paragraph{}
-What situations are you walking into? There is a convergence of powerful technologies that allow for near instantaneous notification of current events.
-Can a mobile device leverage geolocateed tweets from Twtter, and analysis from IBM's Watson, to produce real-time notification of potentially hazardous situations? That is what this reasearch proposes to elucidate.
+What situations are you walking into? There is a convergence of powerful
+technologies that allow for near instantaneous notification of current events.
+Can a mobile device leverage geolocateed tweets from Twtter, and analysis from
+IBM's Watson, to produce real-time notification of potentially hazardous
+situations? That is what this reasearch proposes to elucidate.
 
 \section{Specific Aims}
 \begin{itemize}
  \item Access the developer consoles and APIs of Twitter and IBM Watson to see
  if the two technology giants can mesh
 
- \item Create an android app that pulls in geolocateed tweets that IBM's Watson can analyze for sentiment and emotion.
+ \item Create an android app that pulls in geolocateed tweets that IBM's Watson
+ can analyze for sentiment and emotion.
 
- \item Show a user's current location, and potentially dangerous proximal locations, in a google map on a mobile device. 
+ \item Show a user's current location, and potentially dangerous proximal
+ locations, in a google map on a mobile device.
 
 \end{itemize}
 
 \section{Background}
+\paragraph{}
+There will be several interdependant moving parts with this project. First, the
+Twitter API allows for the triangulation of geolocated tweets\cite{TwitterGeo}.
+Using developer authentication, and a GET request with certain location parameters, one can obtain a list of current tweets within a search radius.
+
+The application will track the user's longitude and lattitude in real-time. Using this data, tweets will be obtained from a given radius around the user. The last part of this project is natural language processing with IBM's Watson. 
+
+The code for the Android Application is located on Github. While it is not
+eligible to be uploaded to the Play Store yet, it may be tweaked and uploaded
+in the future\cite{Git}.
 
 \section{Preliminary Results}
 
@@ -70,7 +85,7 @@ Can a mobile device leverage geolocateed tweets from Twtter, and analysis from I
 
 \section{Broader Impacts}
 
-\bibliographystyle{myplain}
+\bibliographystyle{IEEEannot}
 \bibliography{annot}
 
 \end{document}
