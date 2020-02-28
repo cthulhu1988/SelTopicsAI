@@ -33,11 +33,14 @@ situations? That is what this reasearch proposes to elucidate.
 
 \section{Background}
 \paragraph{}
-There will be several interdependant moving parts with this project. First, the
+There will be several interdependant moving parts with this project. The datasets for the natural language processing will come from Twitter. The
 Twitter API allows for the triangulation of geolocated tweets\cite{TwitterGeo}.
-Using developer authentication, and a GET request with certain location parameters, one can obtain a list of current tweets within a search radius.
+Using developer authentication, and a GET request with certain location parameters, one can obtain a list of current tweets within a search radius in JSON format. From these tweets one can glean a myriad of data.
 
-The application will track the user's longitude and lattitude in real-time. Using this data, tweets will be obtained from a given radius around the user. The last part of this project is natural language processing with IBM's Watson. 
+The android application will track the user's longitude and lattitude in real-time. A mobile phone is useful in this regard because of the built-in sensor data that can accurately locate the position of a user. Using this data, tweets will be obtained from a given radius around the user.
+
+The last part of this project is natural language processing with IBM's Watson.
+IBM has an easily accessible cloud computing program with various machine learning capabilities\cite{IBM}.
 
 The code for the Android Application is located on Github. While it is not
 eligible to be uploaded to the Play Store yet, it may be tweaked and uploaded
