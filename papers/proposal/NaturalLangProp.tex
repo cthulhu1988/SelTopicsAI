@@ -1,7 +1,9 @@
 %documentclass [12pt]{article}
 \documentclass[12pt, oneside]{article}
 \usepackage{setspace} % for double-spacing.
-\usepackage[top=2.54cm, bottom=2.54cm, left=2.54cm, right=2.54cm]{geometry}	 % for margin requirements.
+\usepackage[top=2.54cm, bottom=2.54cm, left=2.54cm, right=2.54cm]{geometry}	 %
+\usepackage{url}
+
 \title{Situational Awareness: Using Twitter Geolocated Tweets and IBM Watson on a Mobile Device.
 \\\medskip Research Proposal}
 \author{Isaac Callison (ic2d@mtmail.mtsu.edu)\\Middle Tennessee State University}
@@ -9,6 +11,7 @@
 \begin{document}
 \maketitle
 \nocite{*}
+\newpage{}
 
 \section{Introduction}
 \paragraph{}
@@ -47,9 +50,17 @@ eligible to be uploaded to the Play Store yet, it may be tweaked and uploaded
 in the future\cite{Git}.
 
 \section{Preliminary Results}
+A few steps have already been implemented to see this project to fruition. Both
+IBM's cloud machine learning service and Twitter's API require developer
+accounts and some pre-approval. These credentials have been secured.
+Postman, a REST API testing software has been used to experiment with Twitter's
+API\cite{Postman}.
+Further, a
+skeleton android application has been created and uploaded to Github. To date,
+this application just obtains and tracks the user's current position.
 
 \section{Work Plan}
-
+The mobile application is the nexus of this project. Moving foward attempts will be made to integrate calls to the twitter API using the credentials referenced earlier. Passing in the user's lattitude and longitude should yield tweets that can then be parsed. IBM provides a Watson Software Development Kit for integration into the Android Platform. The text from the obtained tweets will be passed into Watson for natural language processing.  
 
 \subsection{Aim 1: Hardware Implementation}
 
@@ -88,7 +99,8 @@ in the future\cite{Git}.
 
 \section{Broader Impacts}
 
-\bibliographystyle{IEEEannot}
+\bibliographystyle{myplain}
+%\bibliographystyle{IEEEannot}
 \bibliography{annot}
 
 \end{document}
