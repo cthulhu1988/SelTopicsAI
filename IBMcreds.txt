@@ -18,3 +18,14 @@ https://github.com/watson-developer-cloud/android-sdk
 https://cloud.ibm.com/apidocs/natural-language-understanding/natural-language-understanding?code=java
 
 https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-getting-started#getting-started-tutorial
+
+
+
+{
+  "apikey": "WWfYmUhjlV60EA-ZwfhXG7n1eopAyoc8B8veLjpMn4J0",
+  "iam_apikey_description": "Auto-generated for key 2321ddcb-3ffb-4c0d-ab5b-be29a881ee7d",
+  "iam_apikey_name": "Auto-generated service credentials",
+  "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+  "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/c9052f3157864a1f80128565395e2098::serviceid:ServiceId-8ac5c2f3-68fd-48f8-b744-9064438c9be8",
+  "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/71cb1ee3-d68b-4688-a041-04e72b826f2b"
+}
