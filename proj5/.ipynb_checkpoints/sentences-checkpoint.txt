@@ -1,0 +1,15 @@
+bat n bat.n.01 bat.n.02
+Most bats eat mainly insects and bugs, but others also feed on fruits.
+The ball flew off the bat with a loud crack, and everyone knew it was a home run.
+The sound emitted by the bat has an extremely high pitch, beyong the range of human hearing.
+One of the weapons used in the crime was a bat.
+pipe n pipe.n.01 pipe.n.02
+Grandma, smoking her pipe, turned around and handed the child a glass of water.
+Some day he was going to pipe water into the barn making it easier to smoke jerky.
+The frozen pipes burst overnight, causing a leak that badly damaged the kitchen.
+As he looked at the water, Jonas filled his pipe and lit it, blowing short puffs into the air.
+move v move.v.04 move.v.11
+Next year she would graduate and would be moving away to college, far from the place she loved.
+Why would a wealthy man move to the country and become a veterinarian?
+Gina's eulogy was simple but moving, and left everyone with a deep longing for the old woman.
+In explaining the bleak circumstances the puppies faced, he hoped he'd move the family to adopt them. 
