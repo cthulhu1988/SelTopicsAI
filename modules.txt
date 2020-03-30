@@ -1,0 +1,2 @@
+conda install -c conda-forge geopy
+pip3 install tweepy (pip install tweepy for good measure)
