@@ -1,0 +1,38 @@
+\begin{thebibliography}{1}
+
+\bibitem{Git}
+Callison, I.
+\newblock {Jupyter Notebook}.
+\newblock
+  \url{https://github.com/cthulhu1988/SelTopicsAI/tree/master/NLPpaper}, 2020.
+\newblock [Online; accessed 9-March-2020].
+
+\bibitem{Google}
+Google,.
+\newblock {Heatmap API}.
+\newblock
+  \url{https://developers.google.com/maps/documentation/javascript/heatmaplayer},
+  2020.
+\newblock [Online; accessed 10-March-2020].
+
+\bibitem{IBM}
+{IBM Incorporated},.
+\newblock {IBM's Watson: Cloud Computing}.
+\newblock \url{https://cloud.ibm.com/apidocs/tone-analyzer}, 2020.
+\newblock [Online; accessed 10-March-2020].
+
+\bibitem{Postman}
+{Postman Incorporated},.
+\newblock {Postman API}.
+\newblock \url{https://www.postman.com/}, 2020.
+\newblock [Online; accessed 29-February-2020].
+
+\bibitem{TwitterGeo}
+{Twitter Incorporated},.
+\newblock {Twitter Documentation: Geocode API}.
+\newblock
+  \url{https://developer.twitter.com/en/docs/geo/places-near-location/api-reference/get-geo-search},
+  2020.
+\newblock [Online; accessed 29-February-2020].
+
+\end{thebibliography}

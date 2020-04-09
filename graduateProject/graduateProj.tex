@@ -3,6 +3,58 @@
 \usepackage{setspace} % for double-spacing.
 \usepackage[top=2.54cm, bottom=2.54cm, left=2.54cm, right=2.54cm]{geometry}	 %
 \usepackage{url}
+\usepackage{mathptmx}% http://ctan.org/pkg/mathptmx
+\usepackage{xifthen}%
+%\doublespacing
+\usepackage{lipsum}
+\usepackage{breakurl}
+\usepackage[breaklinks]{hyperref}
+\usepackage{tocloft}
+\usepackage{color}
+\usepackage{array}
+\usepackage{stfloats}
+\usepackage[pdftex]{graphicx}
+\usepackage{subcaption}
+\usepackage[export]{adjustbox}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{changepage}
+\usepackage{floatrow}
+\usepackage{titlesec}
+\usepackage{chngcntr}
+\usepackage{fancyhdr}
+% -- Define code snippet configuration
+\usepackage{listings}
+\usepackage{color}
+\usepackage{floatrow}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+
 
 \title{Using IBM's Tonality Analysis of Language and Geolocated Tweets to Map Emotional Intensity.
 \\\medskip}
@@ -130,8 +182,35 @@ the emotional intensity of differing regions based on twitter content.
 \bibliography{annot}
 
 \newpage{}
-\section{Appendix}
+\appendix{}
+\section{Coding Environment}
+All code was run on Ubuntu 18.04 LTS. Anaconda was installed and Jupyter
+Notebooks were utilized. All code was written in Python 3. There was some
+difficulty in getting Google Maps to display in JupyterLab. Several modules
+were required to run the various APIs utilized in this project. The following process was used to install Anaconda and the modules used:
+
+\begin{figure}[H]
+\begin{lstlisting}
 
 
+// From a bash command prompt:
+curl -O https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+bash Anaconda3-5.2.0-Linux-x86_64.sh
+
+
+// After installation of Anaconda, these modules should be installed:
+pip install ibm_watson
+pip install tweepy
+pip install geopy
+
+// For gmaps:
+jupyter nbextension enable --py --sys-prefix widgetsnbextension
+pip install gmaps
+jupyter nbextension enable --py --sys-prefix gmaps
+
+\end{lstlisting}
+\caption{Anaconda \& Module Setup}\
+\label{fig:code}
+\end{figure}
 
 \end{document}
