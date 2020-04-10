@@ -165,28 +165,44 @@ accessed. The three aformentioned services required developer accounts to be
 used. Twitter's API required an application and pre-approval. These
 credentials were secured and inserted directly into the code for ease.
 Initially, separate Notebook's were used to test the various API's before
-integration into the main Notebook.
-
-Postman, a REST API testing software was used to experiment with Twitter's
-API\cite{Postman} before integrating Tweepy's tweet streaming code into the main Notebook. These accounts were free to use, up to a point. After some 
-extensive testing with IBM's Watson an
+integration into the main Notebook.These accounts were free to use, up to a
+point. After some extensive testing with IBM's Watson an
 upgraded account had to be setup to continue.
 
 All work was done on a Linux desktop environment. Code was written in Python
-3. A Jupyter Notebook via Anaconda was used to make GET requests of Twitter
-using the Tweepy module to stream a set number of tweets. The original plan was
-to extract the latitude and longitude directly from the tweet, and of course
-the tweet itself. Because Twitter no longer provides the latitude and
-longitude of tweets a workaround was required. Some of the tweets also had
-embedded address location. An open source API called Nominatum was used to
-reverse geocode addresses which were
-still embedded in tweet data\footnote{https://nominatim.org/}.
+3. Anaconda was used to launch the Jupyter environment. Postman, a REST API testing software was used to experiment with Twitter's
+API\cite{Postman} before integrating Tweepy's tweet streaming code into the
+main Notebook.
 
+Using the Python Tweepy module GET requests were made to stream a set number of
+tweets for analysis. The original plan was to extract the latitude and
+longitude directly from the tweet, and of course
+the text of the tweet itself. Because Twitter no longer provides the latitude
+and longitude of tweets a workaround was required. Fortunately, some of the
+tweets also had embedded address location. An open source API called Nominatum
+was used to reverse geocode addresses which were still embedded in tweet
+data\footnote{https://nominatim.org/}.
 
-As a result of the modified method, the Tweets pulled in by the Notebook were
-still run through the IBM tone analyzer after significatn pre-processing.IBM provides a Watson Software
-Development Kit for integration into Python and Jupyter. The text from the
-obtained tweets will be passed into Watson for tonality processing.
+Using the modified method, the Tweets pulled in by the Notebook and subjected
+to significant pre-processing. Of the multitude of tweets that were pulled in,
+only a fraction made it through the several filters set up. Tweepy allows for
+filtering by a bounding-box defined by four coordinates delineated by
+two latitude points and two longitude points. Several of these regions were set
+into variables for use including the rough bounding-boxes of New York
+City, Nashville, Hawaii, and The United States of America. In addition, Tweets
+less than 45 characters in length were excluded as it was presumed no
+meaningful emotional context could be derived from a shorter tweet.
+Tweets were excluded if the tweet meta-data indicated it was in any language
+other than English to avoid confusing the Tone Analzer. Tweets with incomplete
+addreses were filtered out as well as the geocoder would only work with
+complete addresses. Initially retweets were excluded, then allowed on the
+theory that a retweet would mirror the retweeter's mood and allow for more data
+collection. Finally, a regex expression was used to strip out extraneous
+symbols from the tweet.
+
+The cleaned text from the obtained tweets were passed into Watson for tonality
+processing. IBM provides a Watson Software Development Kit for integration into
+Python and Jupyter. 
 
 Display a heatmap of emotion in a certain region based on the intensity
 of the selected emotional state. A Google
