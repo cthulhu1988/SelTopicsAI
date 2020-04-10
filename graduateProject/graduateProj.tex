@@ -78,9 +78,11 @@
 Metadata, and extraction of relevant information from that data, is exploding.
 Companies and organizations are competing at a furious rate to glean advantages
 from ever expanding datasets. One such voluminous and continuously updated
-dataset are tweets from the social-media giant Twitter. Tweets were collected
-in real-time. Using IBM's tone analyzer, the emotional nature of these tweets
-was analyzed. The results were mapped onto a Google Heatmap.
+dataset are tweets from the social-media giant Twitter. Tweets from various
+regions were collected in real-time using Tweepy. Geolocation was obtained
+through location parsing and geocoding. Using IBM's tone analyzer, the
+emotional nature of these tweets was analyzed and the predominant emotion was
+chosen. The results were mapped onto a Google Heatmap.
 \end{abstract}
 
 
@@ -89,33 +91,50 @@ was analyzed. The results were mapped onto a Google Heatmap.
 \paragraph{}
 There is a convergence of powerful technologies that allow for near-
 instantaneous notification of current events using available meta-data from
-social media platforms. The goal of this project was to gather and analyze
-tweets for emotive tonality, then display this on a Google "heatmap" of emotive
-intensity.
+social media platforms. One can presume a possible correlation between the
+growing data and the usefulness that can be extracted from said data. One
+social media platform for which, at least the
+possibility of obtaining relevant data is present, is Twitter. This is not lost
+on Twitter. In fact, part of Twitter's business model is selling data through
+premium API's\footnote{https://developer.twitter.com/en/premium-apis}.
 
-To this end, three separate technologies that are interdependent were utilized
-for this project. First, using Twitter's developer API, geolocated tweets were be collected from a specific region and radius, then pre-processed to extract
-latitude, longitude and text. Secondly, using IBM's Watson, the tweets were
-assesed for emotive tonality. Finally, a Google map is displayed with a
-heatmap layer graphing the intensity of these emotions.
+The goal of this project was to gather and analyze tweets for emotive tonality,
+then display this on a "heatmap" of emotive intensity for a specific
+region. To this end, three separate technologies that were, at least for this
+project interdependent, were utilized. First, using Twitter's developer API,
+geolocated tweets were collected from a specific region and radius, then pre-
+processed to extract latitude, longitude and text. Secondly, using IBM's
+Watson and natural language processing capabilities, the tweets were assesed
+for emotive tonality. Finally, a Google map was
+displayed with a heatmap layer graphing the intensity of these emotions.
+
+In a perfect world with enough data coming in of the type referenced above, a
+real-time map of the emotional state of a town or city could be analyzed. The
+reality fell far short of what was envisioned and the the successes and
+shortcomings will be documented herein.
 
 
 \section{Background}
 \paragraph{}
 As stated above, there were several interdependent moving parts with this
 project. With regards to platform, a Jupyter Notebook was used for this
-project to pull in modules, access API's, and make GET and POST requests.
+project to pull in modules, access API's, and make GET and POST requests to
+those APIs.
 
 The datasets for the natural language processing came from Twitter. The
-Twitter API allows for the triangulation of geolocated tweets\cite{TwitterGeo}.
-However, this feature was culled in March of 2019. In response, other methods
-were used to triangulage tweets.
+Twitter API allows for the triangulation of tweets provided certain
+data\cite{TwitterGeo}.
+However, the ability to extract out latitude and longitude from a tweet, which
+was previously available, was culled in June of 2019\footnote{The author was not
+aware of this change when launching this project. Please see: https://
+www.engadget.com/2019-06-19-twitter-removes-precise-geo-tagging.html}. In
+response, other methods were used to triangulage tweets.
 
 Using developer authentication, and a GET request with certain location
 parameters, one can obtain a list of current tweets within a search radius in
 JSON format. A great deal of meta-data is returned in this format, but from
-these tweets one can glean a myriad of data, including the latitude and
-longitude of the tweet.
+these tweets one can glean a myriad of data, including up until recently, the
+latitude and longitude of the tweet.
 
 The second part of this project was natural language processing with IBM's
 Watson using tonality analysis.
@@ -123,46 +142,65 @@ IBM has a cloud computing program with various machine learning
 capabilities\cite{IBM}, one of which is tonality analysis. The natural language
 tonality processing that Watson offers can, among other things, extract emotion
 from a corpus. In this specific case, a variety of emotions, including
-happiness, sadness, frustration, excitement, etc., and the intensity of that
-specific emotion, were derived at the sentence and document level.
+fear, joy, analytical, confident. Further, the intensity of a
+specific emotion can derived at the sentence and document level.
 
-As a graphical representation of the data collected, a heatmap was used. A heatmap overlay is a feature offered by Google Maps. It can create a
-visualization to depict the intensity of data at a range of geographical points.
-This is good when you have lots of data points of varying magnitude.
+As a graphical representation of the data collected, a heatmap was used. A
+heatmap overlay is a feature offered by Google Maps. It can create a
+visualization to depict the magnitude variation of data at a range of
+latitudinal and longitudinal points.
+A heatmap is very usefule when you have a great deal of data points of varying
+magnitude and their geographic position. One type of dataset that lends itself
+well to such graphical representation is eathquake data\footnote{An eathquake
+dataset is included in the gmaps package and is used for illustration and
+tutorials}.
 When the Heatmap Layer is enabled, a colored overlay will appear on top of the
-map. By default, areas of higher intensity will be colored red, and areas of
-lower intensity will appear green\cite{Google}.
+map. By default, areas of higher intensity or magnitude will be colored red,
+and areas of lower intensity will appear green\cite{Google}.
 
 \section{Research Method}
- The consoles and APIs of Twitter, IBM's Watson, and Google were
- accessed. The three aformentioned services required developer accounts to be
- used. Twitter's API required an application and pre-approval. These
- credentials were secured. Postman, a REST API testing software was
- used to experiment with Twitter's API\cite{Postman}.
 
- A Jupyter Notebook was used to make GET requests of Twitter. The
- data was processed to obtain the text of the actual tweet and the locaton of
- the tweet. What was initially envisioned was a fine grain heatmap showing data
- across any number of cities. Unfortunately, the fine-grain location data of
- each tweet was removed by Twitter in mid-2019. As a result, tweets could be
- pulled from a specific region, but the exact latitude and longitude of that
- tweet was not discerable. The method was modified from the original thusly...
+The consoles and APIs of Twitter, IBM's Watson, and Google were
+accessed. The three aformentioned services required developer accounts to be
+used. Twitter's API required an application and pre-approval. These
+credentials were secured and inserted directly into the code for ease.
+Initially, separate Notebook's were used to test the various API's before
+integration into the main Notebook.
+
+Postman, a REST API testing software was used to experiment with Twitter's
+API\cite{Postman} before integrating Tweepy's tweet streaming code into the main Notebook. These accounts were free to use, up to a point. After some 
+extensive testing with IBM's Watson an
+upgraded account had to be setup to continue.
+
+All work was done on a Linux desktop environment. Code was written in Python
+3. A Jupyter Notebook via Anaconda was used to make GET requests of Twitter
+using the Tweepy module to stream a set number of tweets. The original plan was
+to extract the latitude and longitude directly from the tweet, and of course
+the tweet itself. Because Twitter no longer provides the latitude and
+longitude of tweets a workaround was required. Some of the tweets also had
+embedded address location. An open source API called Nominatum was used to
+reverse geocode addresses which were
+still embedded in tweet data\footnote{https://nominatim.org/}.
 
 
- As a result of the modified method, the Tweets pulled in by the Notebook were
- still run through the IBM tone analyzer after significatn pre-processing.IBM provides a Watson Software
- Development Kit for integration into Python and Jupyter. The text from the
- obtained tweets will be passed into Watson for tonality processing.
+As a result of the modified method, the Tweets pulled in by the Notebook were
+still run through the IBM tone analyzer after significatn pre-processing.IBM provides a Watson Software
+Development Kit for integration into Python and Jupyter. The text from the
+obtained tweets will be passed into Watson for tonality processing.
 
- Display a heatmap of emotion in a certain region based on the intensity
- of the selected emotional state. A Google
- Map will display a heatmap layer with the attendant emotion and intensity. For
- instance, in areas of a region where the tweets have low sadness, green shading
- will predominate, changing to red as the intensity of that emotion increases
+Display a heatmap of emotion in a certain region based on the intensity
+of the selected emotional state. A Google
+Map will display a heatmap layer with the attendant emotion and intensity. For
+instance, in areas of a region where the tweets have low sadness, green shading
+will predominate, changing to red as the intensity of that emotion increases
 
 
 \section{Results and Analysis}
-
+Unfortunately, the fine-grain location data of
+each tweet was removed by Twitter in mid-2019. As a result, tweets could be
+pulled from a specific region, but the exact latitude and longitude of that
+tweet was not discerable. What was initially envisioned was a fine grain heatmap
+showing data across any number of cities. The method was modified from the original thusly...
 
 \section{Conclusion and Future Work}
 We live in an age of ever expanding meta-data. As this increases, humanity will
