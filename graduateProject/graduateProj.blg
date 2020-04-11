@@ -4,46 +4,47 @@ The top-level auxiliary file: graduateProj.aux
 The style file: myplain.bst
 Database file #1: annot.bib
 Warning--entry type for "IBM" isn't style-file defined
---line 35 of file annot.bib
-You've used 5 entries,
+--line 82 of file annot.bib
+Warning--empty booktitle in verma2011
+You've used 10 entries,
             2118 wiz_defined-function locations,
-            526 strings with 4681 characters,
-and the built_in function-call counts, 1105 in all, are:
-= -- 110
-> -- 35
+            557 strings with 5645 characters,
+and the built_in function-call counts, 2929 in all, are:
+= -- 272
+> -- 170
 < -- 0
-+ -- 15
-- -- 10
-* -- 32
-:= -- 194
-add.period$ -- 20
-call.type$ -- 5
-change.case$ -- 20
++ -- 70
+- -- 58
+* -- 181
+:= -- 522
+add.period$ -- 35
+call.type$ -- 10
+change.case$ -- 59
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 35
-empty$ -- 111
-format.name$ -- 10
-if$ -- 241
+cite$ -- 11
+duplicate$ -- 90
+empty$ -- 221
+format.name$ -- 58
+if$ -- 594
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 0
-newline$ -- 33
-num.names$ -- 10
-pop$ -- 40
+int.to.str$ -- 10
+missing$ -- 5
+newline$ -- 58
+num.names$ -- 20
+pop$ -- 78
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 49
 quote$ -- 0
-skip$ -- 30
+skip$ -- 65
 stack$ -- 0
-substring$ -- 25
-swap$ -- 5
+substring$ -- 92
+swap$ -- 10
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 20
-warning$ -- 0
-while$ -- 10
-width$ -- 6
-write$ -- 62
-(There was 1 warning)
+type$ -- 40
+warning$ -- 1
+while$ -- 23
+width$ -- 12
+write$ -- 114
+(There were 2 warnings)

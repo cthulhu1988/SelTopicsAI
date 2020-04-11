@@ -1,4 +1,9 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{arab}
+Alhindi, W., Talha, M., and Sulong, G.
+\newblock The role of modern technology in arab spring.
+\newblock {\em Archives des sciences 1661-464X}, 65:1661--464, 09 2012.
 
 \bibitem{Git}
 Callison, I.
@@ -14,6 +19,18 @@ Google,.
   \url{https://developers.google.com/maps/documentation/javascript/heatmaplayer},
   2020.
 \newblock [Online; accessed 10-March-2020].
+
+\bibitem{tourism2013}
+Hawelka, B., Sitko, I., Beinat, E., Sobolevsky, S., Kazakopoulos, P., and
+  Ratti, C.
+\newblock Geo-located twitter as proxy for global mobility patterns.
+\newblock {\em Cartography and Geographic Information Science}, 41, 11 2013.
+
+\bibitem{tourist2018}
+Hu, F., Li, Z., Yang, C., and Jiang, Y.
+\newblock A graph-based approach to detecting the tourist movement patterns
+  using social media data.
+\newblock {\em Cartography and Geographic Information Science}, 05 2018.
 
 \bibitem{IBM}
 {IBM Incorporated},.
@@ -34,5 +51,17 @@ Google,.
   \url{https://developer.twitter.com/en/docs/geo/places-near-location/api-reference/get-geo-search},
   2020.
 \newblock [Online; accessed 29-February-2020].
+
+\bibitem{verma2011}
+Verma, S., Vieweg, S., Corvey, W., Palen, L., Martin, J., Palmer, M., Schram,
+  A., and Anderson, K.
+\newblock Natural language processing to the rescue? extracting "situational
+  awareness" tweets during mass emergency.
+\newblock 01 2011.
+
+\bibitem{villars2011}
+Villars, R.~L., Olofson, C.~W., and Eastwood, M.
+\newblock Big data: What it is and why you should care.
+\newblock {\em White Paper, IDC}, 14:1--14, 2011.
 
 \end{thebibliography}
