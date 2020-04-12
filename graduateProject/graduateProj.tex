@@ -78,12 +78,12 @@
 The corpus of social-media data as a whole is growing at an exponential rate
 and extraction of useful information from that data is exploding.
 Big Data focused companies and organizations are competing at a furious rate to
-glean advantages from ever expanding datasets. One such voluminous and
+glean advantages from ever-expanding datasets. One such voluminous and
 continuously expanding dataset are tweets from the social-media giant Twitter.
 Tweets from various regions were collected in real-time using Tweepy.
 Geolocation was obtained through location parsing and geocoding. Using IBM's
 tone analyzer, the emotional nature of these tweets was analyzed and the
-predominant emotion and intensity was extracted. The results were mapped onto a
+predominant emotion and intensity of each was extracted. The results were mapped onto a
 Google Heatmap.
 \end{abstract}
 
@@ -94,7 +94,7 @@ instantaneous notification of current events using available from
 social media platforms. In some cases these technology tools are the medium by
 which revolutions are fomented and driven\cite{arab}. This is the era of "Big
 Data" that measures in the realm of zettabytes, the unspoken hypothesis is that
-one can presume a postive correlation between the growing data and the
+one can presume a positive correlation between the growing data and the
 usefulness that can be extracted from said data\cite{villars2011}.
 
 One social media platform for which, at least the possibility of obtaining
@@ -109,30 +109,30 @@ different values.} of emotive intensity for a specific
 region. To this end three separate technologies were utilized. For this
 project  these technologies were interdependent. First, using Twitter's
 developer API, geolocated tweets were collected from a specific region, then
-pre-processed to extract latitude, longitude and text. Secondly, using IBM's
-Watson and natural language processing capabilities, the tweets were assesed
+pre-processed to extract latitude, longitude, and text. Secondly, using IBM's
+Watson and natural language processing capabilities, the tweets were assessed
 for emotive tonality. Finally, a Google map was
 displayed with a heatmap layer graphing the intensity of these emotions.
 
 In a perfect world with enough data coming in of the type referenced above, a
 real-time map of the emotional state of a town or city could be analyzed. The
-reality fell far short of what was envisioned and the the successes and
+reality fell far short of what was envisioned and the successes and
 shortcomings will be documented herein.
 
 
 \section{Background}
 \paragraph{}
 As stated above, there were several interdependent moving parts with this
-project. With regards to development environment, a Jupyter Notebook was used
-for this project to pull in modules, access API's, and make GET and POST
+project. With regards to the development environment, a Jupyter Notebook was
+used for this project to pull in modules, access API's, and make GET and POST
 requests to those APIs.
 
-The proiject's datasets for the natural language processing came from Twitter.
+The project's datasets for the natural language processing came from Twitter.
 The Twitter API allows for the triangulation of tweets provided certain
 data\cite{TwitterGeo}. In general, tweets have a great deal of metadata bundled
 into their JSON objects.
 
-A key part of this project was the the triangulation data associated with
+A key part of this project was the triangulation data associated with
 tweets. This is certainly not the first project to leverage geotagged tweets
 for Big Data. Projects have used it for situational awareness in
 diasters\cite{verma2011} and for tracking tourism globally \cite{tourism2013},
@@ -142,7 +142,7 @@ extract out latitude and longitude
 from a tweet, which was previously available, was culled in June of
 2019\footnote{The author was not aware of this change when launching this
 project. Please see: https://www.engadget.com/2019-06-19-twitter-removes-
-precise-geo-tagging.html}. In response, other methods were used to triangulage
+precise-geo-tagging.html}. In response, other methods were used to triangulate
 tweets.
 
 Using developer authentication, and a GET request with certain location
@@ -158,18 +158,19 @@ natural language tonality processing that Watson offers can, among other
 things, extract emotion from a corpus. In this specific case, a variety of
 emotional states could be extracted including: fear, joy, analytical,
 confident, sadness, tentative, and anger\footnote{These are the exact tags
-assigned to individual sentences.}. Further, the intensity of a specific
-emotion can derived at the sentence and document level.
+assigned to individual sentences by IBM's analyzer.}. Further, the intensity of
+a specific
+emotion can be derived at the sentence and document level.
 
 As a graphical representation of the data collected, a heatmap was used. A
 heatmap overlay is a feature offered by Google Maps. It can create a
 visualization to depict the magnitude variation of data at a range of
-latitudinal and longitudinal points. A heatmap is very usefule when you have a
+latitudinal and longitudinal points. A heatmap is very useful when you have a
 great deal of data points of varying magnitude and their geographic position.
 One type of dataset that lends itself well to such graphical representation is
-eathquake data\footnote{An eathquake
+eathquake data\footnote{An earthquake
 dataset is included in the gmaps package and is used for illustration and
-tutorials}. When the Heatmap Layer is enabled, a colored overlay will appear on
+tutorials}. When the heatmap layer is enabled, a colored overlay will appear on
 top of the map. By default, areas of higher intensity or magnitude will be
 colored red, and areas of lower intensity will appear green\cite{Google}.
 
@@ -180,12 +181,13 @@ accessed. The three aformentioned services required developer accounts to be
 used. Twitter's API required an application and pre-approval. These
 credentials were secured and inserted directly into the code for ease.
 Initially, separate Notebook's were used to test the various API's before
-integration into the main Notebook.These accounts were free to use, up to a
+integration into the main Notebook. These accounts were free to use, up to a
 point. After some extensive testing with IBM's Watson an
 upgraded account had to be setup to continue.
 
 All work was done on a Linux desktop environment. Code was written in Python
-3. Anaconda was used to launch the Jupyter environment. Postman, a REST API testing software was used to experiment with Twitter's
+3. Anaconda was used to launch the Jupyter environment. Postman, a REST API
+testing software was used to experiment with Twitter's
 API\cite{Postman} before integrating Tweepy's tweet streaming code into the
 main Notebook.
 
@@ -195,22 +197,24 @@ tweets for analysis. The original plan was to extract the latitude and
 longitude directly from the tweet, and of course
 the text of the tweet itself. Because Twitter no longer provides the latitude
 and longitude of tweets a workaround was required. Fortunately, some of the
-tweets also had embedded address location. An open source API called
+tweets also had embedded address locations. An open-source API called
 Nominatum\footnote{https://nominatim.org/} was used to reverse geocode
 addresses which were still embedded in tweet data.
 
-Using the modified method, the Tweets pulled in by the Notebook and subjected
-to significant pre-processing. Of the multitude of tweets that were pulled in,
-only a fraction made it through the several filters set up. Tweepy allows for
-filtering by a bounding-box defined by four coordinates delineated by
-two latitude points and two longitude points. Several of these regions were set
-into variables for use including the rough bounding-boxes of New York
-City, Nashville, Hawaii, and The United States of America. In addition, Tweets
-less than 45 characters in length were excluded as it was presumed no
+Tweepy allows for filtering by a bounding-box defined by four coordinates
+delineated by two latitude points and two longitude points. Several of these
+regions were set into variables for use including the rough bounding-boxes of
+New York City, Nashville, Hawaii, and The United States of America.
+
+Using the modified method with Nominatum, the Tweets pulled in by the Notebook
+and subjected to significant pre-processing. Of the multitude of tweets that
+were pulled in, only a fraction made it through the several filters set up.
+
+Tweets less than 45 characters in length were excluded as it was presumed no
 meaningful emotional context could be derived from a shorter tweet.
 Tweets were excluded if the tweet meta-data indicated it was in any language
-other than English to avoid confusing the Tone Analzer. Tweets with incomplete
-addreses were filtered out as well as the geocoder would only work with
+other than English to avoid confusing the Tone Analyzer. Tweets with incomplete
+addresses were filtered out as well as the geocoder would only work with
 complete addresses. Initially retweets were excluded, then allowed on the
 theory that a retweet would mirror the retweeter's mood and allow for more data
 collection. Finally, a regex expression was used to strip out extraneous
@@ -218,50 +222,52 @@ symbols from the tweet.
 
 The cleaned text from the obtained tweets were passed into Watson for tonality
 processing. IBM provides a Watson Software Development Kit for integration into
-Python and Jupyter\footnote{https://cloud.ibm.com/docs/services/watson?topic=watson-using-sdks}.
+Python and Jupyter\footnote{https://cloud.ibm.com/docs/services/
+watson?topic=watson-using-sdks}.
 
-Display a heatmap of emotion in a certain region based on the intensity
-of the selected emotional state. A Google
-Map will display a heatmap layer with the attendant emotion and intensity. For
-instance, in areas of a region where the tweets have low sadness, green shading
-will predominate, changing to red as the intensity of that emotion increases
+A Google Map displayed a heatmap layer with the attendant emotion and
+intensity. For instance, in areas of a region where the tweets have low
+sadness, green shading predominated, changing to red as the intensity of
+that emotion increased.
 
 
 \section{Results and Analysis}
 \paragraph{}
 A description of the results gleaned through this process is best addressed
-though an analysis of each API service. As the project progressed, three
+through an analysis of each API service. As the project progressed, three
 interdependent API services became four interdependent APIs. Initially
-considered
-were, Twitter, IBM Watson, and Google. Once it became clear that latitude and
-longitude information could not be pulled directly from twitter data, a fourth
-API, Nominatum was brought into the fray for geocoding.
+considered were, Twitter, IBM Watson, and Google. Once it became clear that
+latitudinal and longitudinal information could not be pulled directly from
+twitter data, a fourth API, Nominatum was brought into the fray for geocoding.
 
 Pulling tweets using Tweepy and Twitter's API proved to be fairly straight-
 forward once the authentication code was properly set up. As previously
 lamented, the fine-grain location data of each tweet was removed
 by Twitter in mid-2019. As a result, tweets could be pulled from a specific
 region through Tweepy, but the exact latitude and longitude of that
-tweet was not discernable. What was initially envisioned was a fine-grain heatmap showing data across a city, but this was not to be the result.
+tweet was not discernable. What was initially envisioned was a fine-grain
+heatmap showing data across a city, but this was not to be the result.
 
 There were two crippling realities grappled with concerning Twitter's API. The
 first is that though thousands of tweets could be pulled in a matter of
 seconds, after filtering by length, language, and geocoding through Nominatum,
 attrition was extremely high. A flood of tweets was turned into a trickle
-whereby a usable tweet would come in every few seconds. The second issue was
-rate-limiting \footnote{https://developer.twitter.com/en/docs/basics/rate-
-limiting}. With all the filters in place, less than 300 tweets could be pulled
-in during a half-hour period. At that point an error would be returned by the
-twitter API. This exception was caught in the code and an exponential backoff
-was implemented to attempt the stream again at a later point. By relaxing a few
-of the filters, including allowing retweets, the number of tweets available
-before rate-limiting kicked in was increased to around 1200. However, it could
-take easily an hour to pull in that many tweets which defeated the "real-time"
-nature of the project. The usable tweets and their geocodes were loaded into a
-Pandas dataframe object.
+whereby a new usable tweet would come only after several seconds.
+
+The second issue was rate-limiting \footnote{https://developer.twitter.com/en/
+docs/basics/rate-limiting}. With all the filters in place, less than 300 tweets
+could be pulled in during a half-hour period. At that point an error would be
+returned by the Twitter API. This exception was caught in the code and an
+exponential backoff was implemented to attempt the stream again at a later
+point. By relaxing a few of the filters, including allowing retweets, the
+number of tweets available before rate-limiting kicked in was increased to
+around 1200. However, it could take easily an hour to pull in that many tweets,
+which defeated the "real-time" nature of the project. The usable tweets and
+their geocodes were loaded into a
+Pandas dataframe object for manipulation.
 
 Watson's Tone Analysis worked with very few caveats. The free account was
-limited to 2500 API calls per month. As such a premium account was setup to
+limited to 2500 API calls per month. As such a premium account was set up to
 continue its use. The tone analysis worked well at classification, but the
 documentation gave little guidance on how to parse the data returned and
 offered no function calls that could be used to pull out specific data objects.
@@ -295,38 +301,72 @@ display:
 
 df_joy = df.loc[df['emotion'] == 'joy']
 \end{lstlisting}
-\caption{Example Starting File for esp8266 devices.}\
+\caption{Dataframe object with certain rows selected.}\
 \label{fig:code}
 \end{figure}
 
-Of one-thousand usable tweets pulled from the New York City region, and
-displayed by the variable emotion, this result is produced:
+The code was adjusted to pull in one-thousand tweets. The total time to
+complete this task was roughly nintey-minutes. As the time signatures of each
+usable tweet was saved in the Pandas dataframe, the time between the
+first and last tweet pulled can be illustrated:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{dataframe}
-  \caption{Selected rows of Pandas Datframe}
+\includegraphics[width=0.7\textwidth]{time}
+  \caption{Time required to glean one-thousand usable tweets.}
 \end{figure}
 
-Nominatum was the last API referenced above. It had the minor, yet crucial task
-of geocoding the addresses pulled from usable tweets. In fact, whether a
-tweet had a fairly complete address for geocoding puroposes was one of the
+
+Of the one-thousand usable
+tweets pulled from the New York City region, and
+displayed by the variable emotion, this result is produced the following
+heatmap:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{nyClose}
+  \caption{Heatmap view of New York City and surrounding regions.}
+  \label{fig:ny1}
+\end{figure}
+
+This is promising until one scrolls in closer. Instead of a multitude of tweets
+of varying magnitude spread all over the city, we see a few clusters:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{NyBoroughs}
+  \caption{Close up view of New York City Heatmap.}
+  \label{fig:ny2}
+\end{figure}
+
+That brings us to the last API utilized, Nominatum. It seems from the above
+result that Nominatum has, through its geocoding
+services, assigned all of the tweets to one of the five New York City boroughs.
+Nominatum had the minor, yet crucial task of geocoding the addresses pulled
+from usable tweets. In fact, whether a
+tweet had a fairly complete address for geocoding purposes was one of the
 criteria for whether or not a tweet was usable. While this open-source API
 provided a work-around for the lack of Twitter embedded coordinates, it was not
-always completely accurate. If a partial address was enough to provide
-coordinates, Nominatum was used.
+completely accurate, as illustrated above in figures ~\ref{fig:ny1} and
+~\ref{fig:ny2}. If a
+partial address was enough to provide coordinates, Nominatum was used. The poor
+results are not necessarily the fault of Nominatum. Nominatum was merely
+returning coordinates from the addresses embedded in the tweets, and the
+addresses appear to be of such general nature that instead of an even dispersal
+of points we have a few hotspots.
 
 
 \section{Conclusion and Future Work}
-We live in an age of ever expanding data, "Big Data" as it is often called. As
+We live in an age of ever-expanding data, "Big Data" as it is often called. As
 the volume of this data increases, data scientists will seek to harness this
 information through new technologies, for better or worse. In
 this project, an attempt was made to sift a vast amount of Twitter data in
 real-time to graph the emotional state of particular regions. Unfortunately,
-the particular type of implementation envisioned was ultimately unsuccessful.
+the particular type of implementation envisioned was ultimately unsuccessful
+due to the removal of precise tweet geotagging.
 Graphing the emotional intensity of differing regions based on twitter content
-proved intractable due to miniscule amount of usable geo-taggable tweets that
-could actually be assessed for emotional content.
+proved intractable due to minuscule amount of usable and still geographically
+imprecise tweets that could actually be assessed for emotional content.
 
 \newpage{}
 
@@ -339,24 +379,25 @@ could actually be assessed for emotional content.
 \section{Coding Environment}
 All code was run on Ubuntu 18.04 LTS. Anaconda was installed and Jupyter
 Notebooks were utilized. All code was written in Python 3. There was some
-difficulty in getting Google Maps to display in JupyterLab. Several modules
-were required to run the various APIs utilized in this project. The following process was used to install Anaconda and the modules used:
+difficulty in getting Google Maps to display in JupyterLab and instead Jupyter
+Notebook 6.0.0 was utilized. Several modules
+were required to run the various APIs utilized in this project. The following
+process was used to install Anaconda and the modules used:
 
 \begin{figure}[H]
 \begin{lstlisting}
-
-
 // From a bash command prompt:
 curl -O https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
-bash Anaconda3-5.2.0-Linux-x86_64.sh
 
+// Enter command and follow installation prompts
+bash Anaconda3-5.2.0-Linux-x86_64.sh
 
 // After installation of Anaconda, these modules should be installed:
 pip install ibm_watson
 pip install tweepy
 pip install geopy
 
-// For gmaps:
+// To get gmaps to display properly:
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
 pip install gmaps
 jupyter nbextension enable --py --sys-prefix gmaps
