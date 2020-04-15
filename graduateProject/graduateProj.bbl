@@ -1,24 +1,9 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
 \bibitem{arab}
 Alhindi, W., Talha, M., and Sulong, G.
 \newblock The role of modern technology in arab spring.
 \newblock {\em Archives des sciences 1661-464X}, 65:1661--464, 09 2012.
-
-\bibitem{Git}
-Callison, I.
-\newblock {Jupyter Notebook}.
-\newblock
-  \url{https://github.com/cthulhu1988/SelTopicsAI/tree/master/NLPpaper}, 2020.
-\newblock [Online; accessed 9-March-2020].
-
-\bibitem{Google}
-Google,.
-\newblock {Heatmap API}.
-\newblock
-  \url{https://developers.google.com/maps/documentation/javascript/heatmaplayer},
-  2020.
-\newblock [Online; accessed 10-March-2020].
 
 \bibitem{tourism2013}
 Hawelka, B., Sitko, I., Beinat, E., Sobolevsky, S., Kazakopoulos, P., and
@@ -36,6 +21,13 @@ Hu, F., Li, Z., Yang, C., and Jiang, Y.
 {IBM Incorporated},.
 \newblock {IBM's Watson: Cloud Computing}.
 \newblock \url{https://cloud.ibm.com/apidocs/tone-analyzer}, 2020.
+\newblock [Online; accessed 10-March-2020].
+
+\bibitem{Google}
+Incorporated, G.
+\newblock {Heatmap API}.
+\newblock \url{https://developers.google.com/maps/documentation/
+  javascript/heatmaplayer}, 2020.
 \newblock [Online; accessed 10-March-2020].
 
 \bibitem{Postman}

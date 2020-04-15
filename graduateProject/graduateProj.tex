@@ -83,21 +83,21 @@ continuously expanding dataset are tweets from the social-media giant Twitter.
 Tweets from various regions were collected in real-time using Tweepy.
 Geolocation was obtained through location parsing and geocoding. Using IBM's
 tone analyzer, the emotional nature of these tweets was analyzed and the
-predominant emotion and intensity of each was extracted. The results were mapped onto a
-Google Heatmap.
+predominant emotion and intensity of each was extracted. The results were
+mapped onto a Google Heatmap.
 \end{abstract}
 
 \section{Introduction}
 \paragraph{}
 There is a convergence of powerful technologies that allow for near-
-instantaneous notification of current events using available from
-social media platforms. In some cases these technology tools are the medium by
-which revolutions are fomented and driven\cite{arab}. This is the era of "Big
-Data" that measures in the realm of zettabytes, the unspoken hypothesis is that
-one can presume a positive correlation between the growing data and the
-usefulness that can be extracted from said data\cite{villars2011}.
+instantaneous notification of current events from
+social media platforms. In some cases these technological tools are the medium
+by which revolutions are fomented and driven\cite{arab}. This is the era of "Big
+Data" that measures in the realm of zettabytes per year. The unspoken
+hypothesis is that one can presume a positive correlation between the growing
+data and the usefulness that can be extracted from said data\cite{villars2011}.
 
-One social media platform for which, at least the possibility of obtaining
+One social-media platform for which, at least the possibility of obtaining
 relevant data is present, is Twitter. This reality is not lost
 on Twitter. In fact, part of Twitter's business model is selling user data
 through premium API's\footnote{https://developer.twitter.com/en/premium-apis}.
@@ -106,9 +106,10 @@ The goal of this project was to gather and analyze tweets for emotive tonality,
 then display this on a "heatmap"\footnote{A heatmap is a graphical
 representation of data that uses a system of color-coding to represent
 different values.} of emotive intensity for a specific
-region. To this end three separate technologies were utilized. For this
-project  these technologies were interdependent. First, using Twitter's
-developer API, geolocated tweets were collected from a specific region, then
+region. To this end three separate technologies were utilized. Though any of
+these tools can be used independently, for this
+project they were interdependent. First, using Twitter's
+developer API, tweets were collected from a specific region, then
 pre-processed to extract latitude, longitude, and text. Secondly, using IBM's
 Watson and natural language processing capabilities, the tweets were assessed
 for emotive tonality. Finally, a Google map was
@@ -127,17 +128,18 @@ project. With regards to the development environment, a Jupyter Notebook was
 used for this project to pull in modules, access API's, and make GET and POST
 requests to those APIs.
 
-The project's datasets for the natural language processing came from Twitter.
+The project's dataset for natural language processing came from Twitter.
 The Twitter API allows for the triangulation of tweets provided certain
 data\cite{TwitterGeo}. In general, tweets have a great deal of metadata bundled
 into their JSON objects.
 
 A key part of this project was the triangulation data associated with
 tweets. This is certainly not the first project to leverage geotagged tweets
-for Big Data. Projects have used it for situational awareness in
+for analysis and display. Projects have used geotagged tweets for situational
+awareness in
 diasters\cite{verma2011} and for tracking tourism globally \cite{tourism2013},
 to name just two. Papers in the recent past have created high-quality mappings
-for geo-tagged tourist tweets\cite{tourist2018}. However, the ability to
+from geotagged tourist tweets\cite{tourist2018}. However, the ability to
 extract out latitude and longitude
 from a tweet, which was previously available, was culled in June of
 2019\footnote{The author was not aware of this change when launching this
@@ -155,53 +157,52 @@ The second part of this project was natural language processing with IBM's
 Watson using tonality analysis. IBM has a cloud computing program with various
 machine learning capabilities\cite{IBM}, one of which is tonality analysis. The
 natural language tonality processing that Watson offers can, among other
-things, extract emotion from a corpus. In this specific case, a variety of
-emotional states could be extracted including: fear, joy, analytical,
+things, extract emotion from a well-formed sentence or document. A variety of
+emotional states can be extracted including: fear, joy, analytical,
 confident, sadness, tentative, and anger\footnote{These are the exact tags
 assigned to individual sentences by IBM's analyzer.}. Further, the intensity of
-a specific
-emotion can be derived at the sentence and document level.
+a specific emotion can be derived at the sentence and document level.
 
 As a graphical representation of the data collected, a heatmap was used. A
 heatmap overlay is a feature offered by Google Maps. It can create a
 visualization to depict the magnitude variation of data at a range of
 latitudinal and longitudinal points. A heatmap is very useful when you have a
-great deal of data points of varying magnitude and their geographic position.
+great deal of data points of varying magnitude and geographic position.
 One type of dataset that lends itself well to such graphical representation is
 eathquake data\footnote{An earthquake
 dataset is included in the gmaps package and is used for illustration and
 tutorials}. When the heatmap layer is enabled, a colored overlay will appear on
 top of the map. By default, areas of higher intensity or magnitude will be
-colored red, and areas of lower intensity will appear green\cite{Google}.
+colored red, and areas of lower intensity will appear green\cite{Google}. Code for the project is available on GitHub\footnote{https://github.com/cthulhu1988/SelTopicsAI/blob/master/NLPpaper/HeatMap.ipynb}.
 
 \section{Research Method}
 \paragraph{}
 The consoles and APIs of Twitter, IBM's Watson, and Google were
 accessed. The three aformentioned services required developer accounts to be
-used. Twitter's API required an application and pre-approval. These
-credentials were secured and inserted directly into the code for ease.
+used. Twitter's API required an application and pre-approval process. These
+credentials were secured and inserted directly into the code.
 Initially, separate Notebook's were used to test the various API's before
 integration into the main Notebook. These accounts were free to use, up to a
 point. After some extensive testing with IBM's Watson an
-upgraded account had to be setup to continue.
+upgraded account had to be setup to continue making API calls.
 
 All work was done on a Linux desktop environment. Code was written in Python
-3. Anaconda was used to launch the Jupyter environment. Postman, a REST API
-testing software was used to experiment with Twitter's
+3. Anaconda was used to launch the Jupyter Notebook environment. Postman, a
+REST API testing software was used to experiment with Twitter's
 API\cite{Postman} before integrating Tweepy's tweet streaming code into the
 main Notebook.
 
-Using the Python Tweepy\footnote{https://www.tweepy.org/} module GET requests
+Using the Python Tweepy\footnote{https://www.tweepy.org/} module, GET requests
 were made to stream a set number of
 tweets for analysis. The original plan was to extract the latitude and
 longitude directly from the tweet, and of course
 the text of the tweet itself. Because Twitter no longer provides the latitude
 and longitude of tweets a workaround was required. Fortunately, some of the
 tweets also had embedded address locations. An open-source API called
-Nominatum\footnote{https://nominatim.org/} was used to reverse geocode
-addresses which were still embedded in tweet data.
+Nominatum\footnote{https://nominatim.org/} was used to geocode
+addresses which were still embedded in tweet data into coordinates.
 
-Tweepy allows for filtering by a bounding-box defined by four coordinates
+Tweepy allows filtering by a bounding-box defined by four coordinates
 delineated by two latitude points and two longitude points. Several of these
 regions were set into variables for use including the rough bounding-boxes of
 New York City, Nashville, Hawaii, and The United States of America.
@@ -213,19 +214,19 @@ were pulled in, only a fraction made it through the several filters set up.
 Tweets less than 45 characters in length were excluded as it was presumed no
 meaningful emotional context could be derived from a shorter tweet.
 Tweets were excluded if the tweet meta-data indicated it was in any language
-other than English to avoid confusing the Tone Analyzer. Tweets with incomplete
-addresses were filtered out as well as the geocoder would only work with
-complete addresses. Initially retweets were excluded, then allowed on the
-theory that a retweet would mirror the retweeter's mood and allow for more data
-collection. Finally, a regex expression was used to strip out extraneous
-symbols from the tweet.
+other than English to avoid confusing the Tone Analyzer. Tweets without at
+least a city and a state were filtered out. Initially retweets were excluded,
+then allowed on the theory that a retweet would mirror the retweeter's mood and
+allow for more data collection. Finally, a regex expression was used to strip
+out extraneous symbols from the tweet.
 
 The cleaned text from the obtained tweets were passed into Watson for tonality
 processing. IBM provides a Watson Software Development Kit for integration into
 Python and Jupyter\footnote{https://cloud.ibm.com/docs/services/
 watson?topic=watson-using-sdks}.
 
-A Google Map displayed a heatmap layer with the attendant emotion and
+Using a module called gmaps, a Google Map displayed a heatmap layer with the
+attendant emotion and
 intensity. For instance, in areas of a region where the tweets have low
 sadness, green shading predominated, changing to red as the intensity of
 that emotion increased.
@@ -248,7 +249,7 @@ region through Tweepy, but the exact latitude and longitude of that
 tweet was not discernable. What was initially envisioned was a fine-grain
 heatmap showing data across a city, but this was not to be the result.
 
-There were two crippling realities grappled with concerning Twitter's API. The
+There were two crippling realities to contend with concerning Twitter's API. The
 first is that though thousands of tweets could be pulled in a matter of
 seconds, after filtering by length, language, and geocoding through Nominatum,
 attrition was extremely high. A flood of tweets was turned into a trickle
@@ -261,7 +262,8 @@ returned by the Twitter API. This exception was caught in the code and an
 exponential backoff was implemented to attempt the stream again at a later
 point. By relaxing a few of the filters, including allowing retweets, the
 number of tweets available before rate-limiting kicked in was increased to
-around 1200. However, it could take easily an hour to pull in that many tweets,
+around 1200. However, it could easily take over an hour to pull in that many
+tweets,
 which defeated the "real-time" nature of the project. The usable tweets and
 their geocodes were loaded into a
 Pandas dataframe object for manipulation.
@@ -270,15 +272,16 @@ Watson's Tone Analysis worked with very few caveats. The free account was
 limited to 2500 API calls per month. As such a premium account was set up to
 continue its use. The tone analysis worked well at classification, but the
 documentation gave little guidance on how to parse the data returned and
-offered no function calls that could be used to pull out specific data objects.
+offered no function calls that could be used to pull out specific fields of
+data.
 
-The cumbersome JSON data object returned was converted to Python nested
-dictionary objects and parsed. Often more than one emotive quality was returned
-but sometimes the API could not determine the emotive nature of the tweet and
-would return null. The tweet was classified by the predominant emotional
-quality returned. The aforementioned Pandas dataframe was amended to include
-these attributes and the magnitude of these attributes as returned by the tone
-analyzer.
+Each tweet run through the tone analyzer retruned a cumbersome JSON data object
+that was converted to Python nested dictionary objects and parsed. Often more
+than one emotive quality was returned but sometimes the API could not determine
+the emotive nature of the tweet and would return null. The tweet was classified
+by the predominant emotional quality returned. The aforementioned Pandas
+dataframe was amended to include these attributes and the magnitude of these
+attributes as returned by the tone analyzer.
 
 \begin{figure}[H]
 \centering
@@ -317,10 +320,9 @@ first and last tweet pulled can be illustrated:
 \end{figure}
 
 
-Of the one-thousand usable
-tweets pulled from the New York City region, and
-displayed by the variable emotion, this result is produced the following
-heatmap:
+Of the one-thousand usable tweets pulled from the New York City region, and
+displayed by the variable emotion set to "joy," the following heatmap was
+produced:
 
 \begin{figure}[H]
 \centering
@@ -329,8 +331,9 @@ heatmap:
   \label{fig:ny1}
 \end{figure}
 
-This is promising until one scrolls in closer. Instead of a multitude of tweets
-of varying magnitude spread all over the city, we see a few clusters:
+This is promising until one scrolls in closer to the map. Instead of a
+multitude of tweets of varying magnitude spread all over the city, we see a few
+clusters:
 
 \begin{figure}[H]
 \centering
@@ -343,13 +346,12 @@ That brings us to the last API utilized, Nominatum. It seems from the above
 result that Nominatum has, through its geocoding
 services, assigned all of the tweets to one of the five New York City boroughs.
 Nominatum had the minor, yet crucial task of geocoding the addresses pulled
-from usable tweets. In fact, whether a
-tweet had a fairly complete address for geocoding purposes was one of the
-criteria for whether or not a tweet was usable. While this open-source API
-provided a work-around for the lack of Twitter embedded coordinates, it was not
-completely accurate, as illustrated above in figures ~\ref{fig:ny1} and
-~\ref{fig:ny2}. If a
-partial address was enough to provide coordinates, Nominatum was used. The poor
+from usable tweets. In fact, whether a tweet had a fairly complete address for
+geocoding purposes was one of the criteria for whether or not a tweet was
+usable. While this open-source API provided a work-around for the lack of
+Twitter embedded coordinates, it was not completely accurate, as illustrated
+above in figures ~\ref{fig:ny1} and ~\ref{fig:ny2}. If a partial address was
+enough to provide coordinates, Nominatum was used. The poor
 results are not necessarily the fault of Nominatum. Nominatum was merely
 returning coordinates from the addresses embedded in the tweets, and the
 addresses appear to be of such general nature that instead of an even dispersal
@@ -371,7 +373,6 @@ imprecise tweets that could actually be assessed for emotional content.
 \newpage{}
 
 \bibliographystyle{myplain}
-%\bibliographystyle{IEEEannot}
 \bibliography{annot}
 
 \newpage{}

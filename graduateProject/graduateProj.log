@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.3.11)  11 APR 2020 22:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.3.11)  14 APR 2020 08:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -660,65 +660,71 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 103.
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 147--147
 [][][]\OT1/ptm/m/n/10 The au-thor was not aware of this change when launch-ing 
 this project. Please see:
  []
 
 [2] [3] [4]
-<dataframe.png, id=83, 672.5125pt x 226.8475pt>
+<dataframe.png, id=84, 672.5125pt x 226.8475pt>
 File: dataframe.png Graphic file (type png)
 <use dataframe.png>
-Package pdftex.def Info: dataframe.png  used on input line 285.
+Package pdftex.def Info: dataframe.png  used on input line 288.
 (pdftex.def)             Requested size: 328.82733pt x 110.9174pt.
  [5 <./dataframe.png>]
-<time.png, id=101, 499.8675pt x 232.87pt>
+<time.png, id=95, 499.8675pt x 232.87pt>
 File: time.png Graphic file (type png)
 <use time.png>
-Package pdftex.def Info: time.png  used on input line 315.
+Package pdftex.def Info: time.png  used on input line 318.
 (pdftex.def)             Requested size: 328.82733pt x 153.19365pt.
-<nyClose.png, id=102, 405.515pt x 192.72pt>
+<nyClose.png, id=96, 405.515pt x 192.72pt>
 File: nyClose.png Graphic file (type png)
 <use nyClose.png>
-Package pdftex.def Info: nyClose.png  used on input line 327.
+Package pdftex.def Info: nyClose.png  used on input line 329.
 (pdftex.def)             Requested size: 328.82733pt x 156.27876pt.
-<NyBoroughs.png, id=103, 477.785pt x 249.93375pt>
+<NyBoroughs.png, id=97, 477.785pt x 249.93375pt>
 File: NyBoroughs.png Graphic file (type png)
 <use NyBoroughs.png>
-Package pdftex.def Info: NyBoroughs.png  used on input line 337.
+Package pdftex.def Info: NyBoroughs.png  used on input line 340.
 (pdftex.def)             Requested size: 328.82733pt x 172.01208pt.
  [6 <./time.png> <./nyClose.png>] [7 <./NyBoroughs.png>] (./graduateProj.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 48--54
+Underfull \hbox (badness 10000) in paragraph at lines 27--32
+[]\OT1/ptm/m/n/12 Incorporated, G.  Heatmap API.  []$\OT1/cmtt/m/n/12 https : /
+ / developers . google . com / maps /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--46
 []\OT1/ptm/m/n/12 Twitter In-cor-po-rated,.  Twit-ter Doc-u-men-ta-tion: Geocod
 e API.  []$\OT1/cmtt/m/n/12 https : / /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--54
+Underfull \hbox (badness 10000) in paragraph at lines 40--46
 \OT1/cmtt/m/n/12 developer . twitter . com / en / docs / geo / places-[]near-[]
 location / api-[]reference /
  []
 
 ) [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 410.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 411.
  [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 410.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 411.
  (./graduateProj.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 410.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 410.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 411.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 411.
 Package rerunfilecheck Info: File `graduateProj.out' has not changed.
 (rerunfilecheck)             Checksum: 2497096F3C5C00CC59EB90B72C9A5BB5;312.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 410.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 411.
  ) 
 Here is how much of TeX's memory you used:
- 10633 strings out of 494923
- 160672 string characters out of 6180742
+ 10632 strings out of 494923
+ 160671 string characters out of 6180742
  392082 words of memory out of 5000000
- 13706 multiletter control sequences out of 15000+600000
+ 13705 multiletter control sequences out of 15000+600000
  44136 words of font info for 90 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  59i,8n,94p,286b,1206s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -728,10 +734,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a
 .pfb>
-Output written on graduateProj.pdf (9 pages, 394591 bytes).
+Output written on graduateProj.pdf (9 pages, 393206 bytes).
 PDF statistics:
- 195 PDF objects out of 1000 (max. 8388607)
- 169 compressed objects within 2 object streams
+ 194 PDF objects out of 1000 (max. 8388607)
+ 168 compressed objects within 2 object streams
  64 named destinations out of 1000 (max. 500000)
  69 words of extra memory for PDF output out of 10000 (max. 10000000)
 
